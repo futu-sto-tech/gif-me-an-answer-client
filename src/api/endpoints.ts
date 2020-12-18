@@ -1,3 +1,4 @@
+import { Gif } from './../types';
 import { Game, Player } from 'types';
 import { apiFetcher } from './client';
 
@@ -95,6 +96,22 @@ export async function submitGif(code: string, order: string, player: Player, gif
 export async function vote(code: string, order: string, player: Player, image: number): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/rounds/${order}/vote`,
-    data: { player: player.id, image: image },
+    data: {},
+  });
+}
+
+export async function getGifs(): Promise<[Gif]> {
+  return await apiFetcher({
+    url: `https://gif-me-an-answer-server.herokuapp.com/api/v1/gifs/`,
+    method: 'POST',
+    data: {},
+  });
+}
+
+export async function serchGifs(query: string): Promise<[Gif]> {
+  return await apiFetcher({
+    url: `https://gif-me-an-answer-server.herokuapp.com/api/v1/gifs/search/${query}`,
+    method: 'POST',
+    data: {},
   });
 }
