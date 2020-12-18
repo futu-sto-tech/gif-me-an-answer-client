@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Dialog } from '@reach/dialog';
 import Button from 'components/Button';
+import { Gif } from 'types';
 
 const BrowseScreen: React.FC<{ game: { players: [] } }> = () => {
   const [query, setQuery] = useState('');
   const [image, setImage] = useState<string | null>(null);
+  const [gifs, setGifs] = useState<[Gif] | []>([]);
 
   const [secondsLeft, setSecondsLeft] = useState(60 * 2);
 

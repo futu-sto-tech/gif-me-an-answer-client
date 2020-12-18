@@ -45,6 +45,21 @@ export interface Player {
   points: number;
 }
 
-export interface Gif {
+export interface GifImage {
   url: string;
+  width: string;
+  heihgt: string;
+}
+export interface GifFixedWidth {
+  url: string;
+  webp: string;
+}
+
+export interface Gif {
+  id: string;
+  title: string;
+  url: string;
+  preview: GifImage;
+  original: GifImage;
+  fixedWidth: GifFixedWidth;
 }

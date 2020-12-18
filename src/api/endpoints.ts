@@ -114,14 +114,7 @@ export async function vote(code: number, order: string, player: Player, image: n
   });
 }
 
-export async function getGifs(): Promise<[Gif]> {
-  return await apiFetcher({
-    url: `/gifs`,
-    method: 'POST',
-  });
-}
-
-export async function searchGifs(query: string): Promise<[Gif]> {
+export async function serchGifs(query: string): Promise<[Gif]> {
   return await apiFetcher({
     url: `/search/${query}`,
     method: 'POST',
