@@ -15,6 +15,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.0",
+    "@reach/dialog": "^0.12.1",
     "next": "^10.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
