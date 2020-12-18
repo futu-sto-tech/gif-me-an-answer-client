@@ -4,7 +4,7 @@ export enum GameStatus {
 }
 
 export interface Game {
-  code: number;
+  code: string;
   players: Player[];
   status: GameStatus;
   totalRounds: number;
@@ -45,6 +45,20 @@ export interface Player {
   points: number;
 }
 
-export interface Gif {
+export interface GifImage {
   url: string;
+  width: string;
+  heihgt: string;
+}
+export interface GifFixedWidth {
+  url: string;
+  webp: string;
+}
+
+export interface Gif {
+  id: string;
+  title: string;
+  preview: GifImage;
+  original: GifImage;
+  fixedWidth: GifFixedWidth;
 }
