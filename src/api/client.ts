@@ -1,9 +1,10 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 export const axiosInstance = axios.create();
 
 const baseURL = '<ADD BASE URL>'; // TO-DO
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function apiFetcher(config: AxiosRequestConfig) {
   const response = await axiosInstance(
     {
