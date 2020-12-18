@@ -1,4 +1,6 @@
-const LobbyScreen: React.FC<{ game: { players: [] } }> = ({ game }) => {
+import { Game } from 'types';
+
+const LobbyScreen: React.FC<{ game: Game }> = ({ game }) => {
   return (
     <div className="flex flex-col items-center justify-center h-screen p-12 space-y-12">
       <img src="/assets/bongocat-2.png" />
