@@ -1,4 +1,4 @@
-import Button from 'components/Button';
+import LinkButton from 'components/LinkButton';
 import styled from 'styled-components';
 
 const MainContainer = styled.main`
@@ -12,8 +12,8 @@ const IndexPage: React.FC = () => {
       <img src="/assets/bongocat-1.png" alt="moscot cat" />
       <img src="/assets/logo.png" alt="logo" className="mb-9" />
       <div className="grid gap-8 lg:grid-cols-2">
-        <Button buttonText="Join game" handleClick={() => console.log('join game')} type="button" />
-        <Button buttonText="Host game" handleClick={() => console.log('join game')} type="button" />
+        <LinkButton linkText="Join game" href="/game/" />
+        <LinkButton linkText="Host game" href="/game/new" />
       </div>
     </MainContainer>
   );
