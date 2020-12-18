@@ -44,3 +44,7 @@ export interface Player {
   name: string;
   points: number;
 }
+
+export interface Gif {
+  url: string;
+}
