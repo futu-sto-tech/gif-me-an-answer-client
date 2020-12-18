@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-export const axiosInstance = axios.create();
-
-const baseURL = '<ADD BASE URL>'; // TO-DO
+const axiosInstance = axios.create();
+const baseURL = 'https://gif-me-an-answer-server.herokuapp.com/api/v1';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function apiFetcher(config: AxiosRequestConfig) {
