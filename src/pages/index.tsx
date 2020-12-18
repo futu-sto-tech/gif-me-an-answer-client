@@ -8,7 +8,7 @@ const Title = styled.h1`
 const IndexPage: React.FC = () => {
   return (
     <>
-      <h1 className="text-black dark:text-white">It&apos;s game time!</h1>
+      <h1 className="text-pink">It&apos;s game time!</h1>
       <Title>Join and let&apos;s play!</Title>
     </>
   );
