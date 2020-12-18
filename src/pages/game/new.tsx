@@ -7,8 +7,7 @@ import { Game } from 'types';
 const GameNewPage: React.FC = () => {
   const [game, setGame] = useState<Game>();
   useEffect(() => {
-    API.createGame(4).then(function (newGame) {
-      console.log(newGame);
+    API.createGame(4).then((newGame) => {
       setGame(newGame);
     });
   }, []);
@@ -16,6 +15,7 @@ const GameNewPage: React.FC = () => {
   return (
     <MainLayout>
       <PageTitle>Create a new game</PageTitle>
+      {/* Placeholder TO-DO */}
       {game == undefined ? <p> Creating game</p> : <p>Code is {game?.code}</p>}
     </MainLayout>
   );
