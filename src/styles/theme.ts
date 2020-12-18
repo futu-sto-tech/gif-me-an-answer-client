@@ -19,7 +19,7 @@ const theme: DefaultTheme = {
     darkPink: '#8D0066',
     cyan: '#00EFFF',
     black: '#000',
-    white: '#FFFFF',
+    white: 'white',
     background: '#2D2D2D',
   },
 };
