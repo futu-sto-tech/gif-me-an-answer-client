@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Game, GameStatus } from 'types';
 
 import JoinGameScreen from 'screens/join-game';
@@ -25,26 +24,6 @@ const GamePage: React.FC = () => {
   }
 
   return <JoinGameScreen onSetup={handleGameSetup} />;
-=======
-import MainLayout from 'components/MainLayout';
-import PageTitle from 'components/PageTitle';
-import BrowseScreen from 'screens/browse';
-
-const DUMMY_GAME_DATA = {
-  players: [
-    { name: 'Hi', points: 22 },
-    { name: 'John', points: 2 },
-  ],
-};
-
-const GamePage: React.FC = () => {
-  return (
-    <MainLayout>
-      <PageTitle>Join game</PageTitle>
-      <BrowseScreen game={DUMMY_GAME_DATA} />
-    </MainLayout>
-  );
->>>>>>> 0f7ee49... add giserch API
 };
 
 export default GamePage;
