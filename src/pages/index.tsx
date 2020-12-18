@@ -1,19 +1,21 @@
 import Button from 'components/Button';
 import styled from 'styled-components';
 
-const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.cyan};
-  font-size: 50px;
+const MainContainer = styled.main`
+  width: 60%;
+  margin: 0 auto;
 `;
 
 const IndexPage: React.FC = () => {
   return (
-    <>
-      <h1 className="text-pink">It&apos;s game time!</h1>
-      <Title>Join and let&apos;s play!</Title>
-      <Button buttonText="Join game" handleClick={() => console.log('join game')} type="button" />
-      <Button buttonText="Join game" handleClick={() => console.log('join game')} type="button" />
-    </>
+    <MainContainer className="flex flex-col items-center justify-center h-screen">
+      <img src="/assets/bongocat-1.png" alt="moscot cat" />
+      <img src="/assets/logo.png" alt="logo" className="mb-9" />
+      <div className="grid gap-8 lg:grid-cols-2">
+        <Button buttonText="Join game" handleClick={() => console.log('join game')} type="button" />
+        <Button buttonText="Host game" handleClick={() => console.log('join game')} type="button" />
+      </div>
+    </MainContainer>
   );
 };
 
