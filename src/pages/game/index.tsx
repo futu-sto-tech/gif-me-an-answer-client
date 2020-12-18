@@ -5,7 +5,7 @@ import LobbyScreen from 'screens/lobby';
 import { useState } from 'react';
 
 const DUMMY_GAME_DATA: Game = {
-  code: 7856,
+  code: '7856',
   players: [],
   status: GameStatus.ACTIVE,
   totalRounds: 8,

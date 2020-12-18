@@ -1,3 +1,4 @@
+import { joinGame } from 'api/endpoints';
 import Button from 'components/Button';
 import { useState } from 'react';
 

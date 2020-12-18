@@ -35,7 +35,7 @@ export async function createGame(rounds: number): Promise<Game> {
  * @param playerName
  * @returns Player object
  */
-export async function joinGame(code: number, playerName: string): Promise<Player> {
+export async function joinGame(code: string, playerName: string): Promise<Player> {
   return await apiFetcher({
     url: `/games/${code}/join`,
     method: 'POST',
@@ -114,9 +114,12 @@ export async function vote(code: number, order: string, player: Player, image: n
   });
 }
 
-export async function serchGifs(query: string): Promise<[Gif]> {
+export async function searchGifs(query: string): Promise<[Gif]> {
   return await apiFetcher({
-    url: `/search/${query}`,
+    url: `/gifs/search/`,
     method: 'POST',
+    data: {
+      query: query,
+    },
   });
 }
