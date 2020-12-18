@@ -8,7 +8,7 @@ import { apiFetcher } from './client';
  * @param code Game code to look for
  * @returns The game object
  */
-export async function findGames(code: string): Promise<[Game]> {
+export async function findGames(code: number): Promise<[Game]> {
   return await apiFetcher({
     url: `/games/${code}`,
   });
@@ -23,7 +23,9 @@ export async function createGame(rounds: number): Promise<Game> {
   return await apiFetcher({
     url: '/games',
     method: 'POST',
-    data: { rounds: rounds },
+    data: {
+      rounds: rounds,
+    },
   });
 }
 
@@ -33,11 +35,13 @@ export async function createGame(rounds: number): Promise<Game> {
  * @param playerName
  * @returns Player object
  */
-export async function joinGame(code: string, playerName: string): Promise<Player> {
+export async function joinGame(code: number, playerName: string): Promise<Player> {
   return await apiFetcher({
     url: `/games/${code}/join`,
     method: 'POST',
-    data: { name: playerName },
+    data: {
+      name: playerName,
+    },
   });
 }
 
@@ -46,11 +50,13 @@ export async function joinGame(code: string, playerName: string): Promise<Player
  * @param player Player details
  * @returns The game object player is ready for
  */
-export async function markReadyForGame(code: string, player: Player): Promise<Game> {
+export async function markReadyForGame(code: number, player: Player): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/ready`,
     method: 'POST',
-    data: { player: player.id },
+    data: {
+      player: player.id,
+    },
   });
 }
 
@@ -61,11 +67,13 @@ export async function markReadyForGame(code: string, player: Player): Promise<Ga
  * @param player Player details
  * @returns Current game
  */
-export async function markReadyForNextRound(code: string, order: number, player: Player): Promise<Game> {
+export async function markReadyForNextRound(code: number, order: number, player: Player): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/rounds/${order}/done`,
     method: 'POST',
-    data: { player: player.id },
+    data: {
+      player: player.id,
+    },
   });
 }
 
@@ -77,11 +85,14 @@ export async function markReadyForNextRound(code: string, order: number, player:
  * @param gifUrl Image url
  * @returns Current game
  */
-export async function submitGif(code: string, order: string, player: Player, gifUrl: string): Promise<Game> {
+export async function submitGif(code: number, order: string, player: Player, gifUrl: string): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/rounds/${order}/images`,
     method: 'POST',
-    data: { player: player.id, url: gifUrl },
+    data: {
+      player: player.id,
+      url: gifUrl,
+    },
   });
 }
 
@@ -93,25 +104,26 @@ export async function submitGif(code: string, order: string, player: Player, gif
  * @param image Voted image
  * @returns Current game
  */
-export async function vote(code: string, order: string, player: Player, image: number): Promise<Game> {
+export async function vote(code: number, order: string, player: Player, image: number): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/rounds/${order}/vote`,
-    data: {},
+    data: {
+      player: player.id,
+      image: image,
+    },
   });
 }
 
 export async function getGifs(): Promise<[Gif]> {
   return await apiFetcher({
-    url: `https://gif-me-an-answer-server.herokuapp.com/api/v1/gifs/`,
+    url: `/gifs`,
     method: 'POST',
-    data: {},
   });
 }
 
-export async function serchGifs(query: string): Promise<[Gif]> {
+export async function searchGifs(query: string): Promise<[Gif]> {
   return await apiFetcher({
-    url: `https://gif-me-an-answer-server.herokuapp.com/api/v1/gifs/search/${query}`,
+    url: `/search/${query}`,
     method: 'POST',
-    data: {},
   });
 }
