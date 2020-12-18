@@ -1,5 +1,12 @@
+import MainLayout from 'components/MainLayout';
+import PageTitle from 'components/PageTitle';
+
 const GameNewPage: React.FC = () => {
-  return <h1 className="text-black dark:text-white">So you want to create a new game?</h1>;
+  return (
+    <MainLayout>
+      <PageTitle>Create a new game</PageTitle>
+    </MainLayout>
+  );
 };
 
 export default GameNewPage;
