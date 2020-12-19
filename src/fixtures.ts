@@ -1,4 +1,4 @@
-import { Game, GameStatus, Player, PlayerStatus } from 'types';
+import { Game, GameRoundStatus, GameStatus, Player, PlayerStatus } from 'types';
 
 export const DUMMY_PLAYER_DATA: Player = { id: 'player1', name: 'Hi', points: 22, status: PlayerStatus.READY };
 
@@ -7,5 +7,13 @@ export const DUMMY_GAME_DATA: Game = {
   players: [DUMMY_PLAYER_DATA, { id: 'player2', name: 'John', points: 2, status: PlayerStatus.JOINED }],
   status: GameStatus.ACTIVE,
   totalRounds: 8,
-  rounds: [],
+  rounds: [
+    {
+      order: 1,
+      status: GameRoundStatus.FINSIHED,
+      caption: 'Hello jebuz',
+      presentImage: '',
+      images: [],
+    },
+  ],
 };
