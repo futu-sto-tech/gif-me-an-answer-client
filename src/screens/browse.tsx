@@ -1,12 +1,13 @@
+import { Game, Gif } from 'types';
 import { useEffect, useState } from 'react';
-import { Dialog } from '@reach/dialog';
+
 import Button from 'components/Button';
-import { Gif } from 'types';
+import { Dialog } from '@reach/dialog';
 import { searchGifs } from './../api/endpoints';
 
 const caption = 'When you randomly remember how much happier you were the week Pokemon GO came out';
 
-const BrowseScreen: React.FC<{ game: { players: [] } }> = () => {
+const BrowseScreen: React.FC<{ game: Game }> = () => {
   const [value, setValue] = useState('');
   const [image, setImage] = useState<string | null>(null);
   const [gifs, setGifs] = useState<[Gif] | null>(null);
