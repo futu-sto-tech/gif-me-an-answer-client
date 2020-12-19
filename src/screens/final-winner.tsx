@@ -1,13 +1,14 @@
-import Button from 'components/Button';
-import { useEffect, useState } from 'react';
 import { Game, Player } from 'types';
+import { useEffect, useState } from 'react';
+
+import Button from 'components/Button';
 
 interface IFinalWinnerScreenProps {
   game: Game;
   player: Player;
 }
 
-const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game, player }) => {
+const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
   const [shouldShowButtons, setShouldShowButtons] = useState(false);
 
   useEffect(() => {
@@ -28,12 +29,12 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game, player }) 
   const winningPlayer = game.players.find((gamePlayer) => (gamePlayer.points = winnerPoints));
 
   return (
-    <div className="flex flex-col items-center p-12 space-y-12 h-screen">
+    <div className="flex flex-col items-center h-screen p-12 space-y-12">
       <h1 className="text-2xl font-bold text-white">Winner:</h1>
 
       <div className="flex flex-col items-center">
         <img src="/assets/crown.svg" />
-        <h1 className="text-4xl font-bold text-white">{winningPlayer.name}</h1>
+        <h1 className="text-4xl font-bold text-white">{winningPlayer?.name}</h1>
       </div>
 
       <div>
@@ -42,7 +43,7 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game, player }) 
         </div>
 
         {shouldShowButtons && (
-          <div className="flex items-center space-x-6 justify-between">
+          <div className="flex items-center justify-between space-x-6">
             <Button type="button" handleClick={handleQuit} buttonText="Quit" />
 
             <Button type="button" handleClick={handleAgain} buttonText="Again" />
