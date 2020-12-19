@@ -1,6 +1,7 @@
-import { joinGame } from 'api/endpoints';
+import { FormEvent, useState } from 'react';
+
+import API from 'api';
 import Button from 'components/Button';
-import { useState } from 'react';
 
 interface Props {
   onSetup: (code: number) => void;
@@ -10,8 +11,15 @@ const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
 
-  const handleSubmit = () => {
-    onSetup(Number(code));
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+
+    try {
+      await API.joinGame(code, name);
+      onSetup(Number(code));
+    } catch (error) {
+      console.warn('Try again');
+    }
   };
 
   return (

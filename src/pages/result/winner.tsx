@@ -1,15 +1,10 @@
-import React from 'react';
-import FinalWinnerScreen from '../../screens/final-winner';
+import { DUMMY_GAME_DATA, DUMMY_PLAYER_DATA } from 'fixtures';
 
-const DUMMY_GAME_DATA = {
-  players: [
-    { name: 'Hi', points: 22 },
-    { name: 'John', points: 2 },
-  ],
-};
+import FinalWinnerScreen from '../../screens/final-winner';
+import React from 'react';
 
 const WinnerPage: React.FC = () => {
-  return <FinalWinnerScreen game={DUMMY_GAME_DATA} />;
+  return <FinalWinnerScreen game={DUMMY_GAME_DATA} player={DUMMY_PLAYER_DATA} />;
 };
 
 export default WinnerPage;

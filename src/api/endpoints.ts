@@ -1,5 +1,6 @@
-import { Gif } from './../types';
 import { Game, Player } from 'types';
+
+import { Gif } from './../types';
 import { apiFetcher } from './client';
 
 /**
@@ -17,14 +18,16 @@ export async function findGames(code: number): Promise<[Game]> {
 /**
  * @summary Create a new game
  * @param rounds Number of rounds to be played
+ * @param players Number of players
  * @returns A game object
  */
-export async function createGame(rounds: number): Promise<Game> {
+export async function createGame({ rounds, players }: { rounds: number; players: number }): Promise<Game> {
   return await apiFetcher({
     url: '/games',
     method: 'POST',
     data: {
-      rounds: rounds,
+      rounds,
+      players,
     },
   });
 }
