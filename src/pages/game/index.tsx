@@ -10,11 +10,15 @@ import LobbyScreen from 'screens/lobby';
 import { useEventSource } from 'hooks';
 
 const GamePage: React.FC = () => {
-  const [code, setCode] = useState<number | null>(7856);
-  const game = useEventSource<Game>(code ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/games/${code}/event` : null);
+  const [code, setCode] = useState<string | null>(null);
+  const [playerName, setPlayerName] = useState<string | null>(null);
 
-  const handleGameSetup = (gameCode: number) => {
-    setCode(gameCode);
+  const game = useEventSource<Game>(code ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/games/${code}/events` : null);
+  const player = useMemo(() => game?.players.find((item) => item.name === playerName) ?? null, [game, playerName]);
+
+  const handleSetup = (data: { code: string; name: string }) => {
+    setCode(data.code);
+    setPlayerName(data.name);
   };
 
   const latestRound = useMemo(() => game?.rounds[game.rounds.length - 1], [game?.rounds]);
@@ -44,11 +48,11 @@ const GamePage: React.FC = () => {
     }
   }
 
-  if (code) {
+  if (player !== null) {
     return <LobbyScreen game={DUMMY_GAME_DATA} />;
   }
 
-  return <JoinGameScreen onSetup={handleGameSetup} />;
+  return <JoinGameScreen onSetup={handleSetup} />;
 };
 
 export default GamePage;

@@ -2,21 +2,24 @@ import { FormEvent, useState } from 'react';
 
 import API from 'api';
 import Button from 'components/Button';
+import { useNextQueryParam } from 'hooks';
 
 interface Props {
-  onSetup: (code: number) => void;
+  onSetup: (data: { code: string; name: string }) => void;
 }
 
 const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
+  const queryCode = useNextQueryParam('code');
+
   const [name, setName] = useState('');
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState(queryCode || '');
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     try {
       await API.joinGame(code, name);
-      onSetup(Number(code));
+      onSetup({ code, name });
     } catch (error) {
       console.warn('Try again');
     }

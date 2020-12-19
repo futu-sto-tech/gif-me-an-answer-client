@@ -1,16 +1,15 @@
 import API from 'api';
 import Button from 'components/Button';
-import { Game } from 'types';
 import PageTitle from 'components/PageTitle';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const GameNewPage: React.FC = () => {
-  const [game, setGame] = useState<Game>();
+  const router = useRouter();
 
   const handleSubmit = async () => {
     try {
       const newGame = await API.createGame({ rounds: 5, players: 8 });
-      setGame(newGame);
+      router.push({ pathname: '/game', query: { code: newGame.code } });
     } catch (error) {
       console.warn('Unable to create game');
     }
@@ -20,8 +19,6 @@ const GameNewPage: React.FC = () => {
     <>
       <PageTitle>Create a new game</PageTitle>
       <Button type="button" buttonText="Next" handleClick={handleSubmit} />
-      {/* Placeholder TO-DO */}
-      {game == undefined ? <p> Creating game</p> : <p>Code is {game?.code}</p>}
     </>
   );
 };
