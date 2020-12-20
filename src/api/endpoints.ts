@@ -78,15 +78,23 @@ export async function markReadyForNextRound(code: number, order: number, player:
   });
 }
 
+interface SubmitGifParams {
+  code: string;
+  order: number;
+  player: Player;
+  gifUrl: string;
+}
+
 /**
  * @summary Submit a GIF to a round
- * @param code Game code
- * @param order Game round order
- * @param player Player details
- * @param gifUrl Image url
+ * @param params
+ * @param params.code Game code
+ * @param params.order Game round order
+ * @param params.player Player details
+ * @param params.gifUrl Image url
  * @returns Current game
  */
-export async function submitGif(code: number, order: string, player: Player, gifUrl: string): Promise<Game> {
+export async function submitGif({ code, order, player, gifUrl }: SubmitGifParams): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/rounds/${order}/images`,
     method: 'POST',

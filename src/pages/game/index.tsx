@@ -1,4 +1,3 @@
-import { DUMMY_GAME_DATA, DUMMY_PLAYER_DATA } from 'fixtures';
 import { Game, GameRoundStatus } from 'types';
 import { useEffect, useMemo, useState } from 'react';
 import { useEventSource, useNextQueryParam } from 'hooks';

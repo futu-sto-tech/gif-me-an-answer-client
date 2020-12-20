@@ -1,11 +1,17 @@
-import { Game, GameRound, Gif } from 'types';
+import { Game, GameRound, Gif, Player } from 'types';
 import { useEffect, useState } from 'react';
 
+import API from 'api';
 import Button from 'components/Button';
 import { Dialog } from '@reach/dialog';
-import { searchGifs } from './../api/endpoints';
 
-const BrowseScreen: React.FC<{ game: Game; round: GameRound }> = ({ round }) => {
+interface ScreenProps {
+  game: Game;
+  round: GameRound;
+  player: Player;
+}
+
+const BrowseScreen: React.FC<ScreenProps> = ({ game, round, player }) => {
   const [value, setValue] = useState('');
   const [image, setImage] = useState<string | null>(null);
   const [gifs, setGifs] = useState<[Gif] | null>(null);
@@ -22,11 +28,16 @@ const BrowseScreen: React.FC<{ game: Game; round: GameRound }> = ({ round }) => 
   function handleSearch(e: React.KeyboardEvent) {
     if (e.key === 'Enter') {
       (async () => {
-        const gifData = await searchGifs(value);
+        const gifData = await API.searchGifs(value);
         setGifs(gifData);
       })();
     }
   }
+
+  const handleSubmitGif = async (url: string) => {
+    await API.submitGif({ code: game.code, order: round.order, player, gifUrl: url });
+  };
+
   return (
     <div className="flex flex-col items-center p-12 space-y-6">
       <div className="flex items-center justify-center w-24 h-24 text-2xl font-bold text-black bg-white rounded-full">
@@ -45,15 +56,14 @@ const BrowseScreen: React.FC<{ game: Game; round: GameRound }> = ({ round }) => 
         />
       </div>
       <div className="gap-4 masonry">
-        {gifs &&
-          gifs.map(({ original, id }) => {
-            console.log(original.url);
-            return (
-              <button key={id} onClick={() => setImage(original.url)} className="w-full h-full">
-                <img src={original.url} />
-              </button>
-            );
-          })}
+        {gifs?.map(({ original, id }) => {
+          console.log(original.url);
+          return (
+            <button key={id} onClick={() => setImage(original.url)} className="w-full h-full">
+              <img src={original.url} />
+            </button>
+          );
+        })}
       </div>
 
       <Dialog
@@ -62,8 +72,12 @@ const BrowseScreen: React.FC<{ game: Game; round: GameRound }> = ({ round }) => 
         isOpen={image !== null}
         onDismiss={() => setImage(null)}
       >
-        {image && <img src={image} className="border-4 border-black" />}
-        <Button type="button" buttonText="Vote for GIF" />
+        {image && (
+          <>
+            <img src={image} className="border-4 border-black" />
+            <Button type="button" buttonText="Select GIF" handleClick={() => handleSubmitGif(image)} />
+          </>
+        )}
       </Dialog>
     </div>
   );
