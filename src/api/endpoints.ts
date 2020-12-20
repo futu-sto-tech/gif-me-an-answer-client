@@ -9,10 +9,8 @@ import { apiFetcher } from './client';
  * @param code Game code to look for
  * @returns The game object
  */
-export async function findGames(code: number): Promise<[Game]> {
-  return await apiFetcher({
-    url: `/games/${code}`,
-  });
+export async function findGames(code: string): Promise<Game> {
+  return await apiFetcher({ url: `/games/${code}` });
 }
 
 /**

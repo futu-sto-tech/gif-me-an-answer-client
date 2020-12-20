@@ -9,20 +9,10 @@ export function useEventSource<T>(url: string | null): T | null {
   useEffect(() => {
     if (url) {
       events.current = new EventSource(url);
-      events.current.onmessage = (event) => {
-        console.log('message', event);
-        setData(event.data);
-      };
 
-      events.current.addEventListener('message', (event) => {
-        console.log(event);
-        setData(event.data);
-      });
-      events.current.addEventListener('open', (event) => {
-        console.log('open', event);
-      });
-      events.current.addEventListener('error', (event) => {
-        console.log('error', event);
+      events.current.addEventListener('playerjoined', (event) => {
+        // @ts-expect-error unable to customize event type
+        setData(JSON.parse(event.data));
       });
     }
 

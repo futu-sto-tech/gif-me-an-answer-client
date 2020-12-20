@@ -1,13 +1,11 @@
-import { Game, Gif } from 'types';
+import { Game, GameRound, Gif } from 'types';
 import { useEffect, useState } from 'react';
 
 import Button from 'components/Button';
 import { Dialog } from '@reach/dialog';
 import { searchGifs } from './../api/endpoints';
 
-const caption = 'When you randomly remember how much happier you were the week Pokemon GO came out';
-
-const BrowseScreen: React.FC<{ game: Game }> = () => {
+const BrowseScreen: React.FC<{ game: Game; round: GameRound }> = ({ round }) => {
   const [value, setValue] = useState('');
   const [image, setImage] = useState<string | null>(null);
   const [gifs, setGifs] = useState<[Gif] | null>(null);
@@ -35,7 +33,7 @@ const BrowseScreen: React.FC<{ game: Game }> = () => {
         {Math.floor(secondsLeft / 60)}:{secondsLeft - 60 * Math.floor(secondsLeft / 60)}
       </div>
       <div className="max-w-xl space-y-6">
-        <p className="text-xl font-bold text-center text-white">{caption} </p>
+        <p className="text-xl font-bold text-center text-white">{round.caption} </p>
         <input
           className="w-full px-4 py-2 text-2xl font-bold border-2 border-black rounded text-pink"
           type="text"
