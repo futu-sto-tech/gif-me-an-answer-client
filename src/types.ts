@@ -12,10 +12,11 @@ export interface Game {
 }
 
 export enum GameRoundStatus {
-  SELECT_GIF,
-  PRESENT,
-  VOTE,
-  FINSIHED,
+  NOT_STARTED = 'NOT_STARTED',
+  SELECT_GIF = 'SELECT_GIF',
+  PRESENT = 'PRESENT',
+  VOTE = 'VOTE',
+  FINSIHED = 'FINSIHED',
 }
 
 export interface GameRound {

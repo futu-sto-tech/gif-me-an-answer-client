@@ -1,8 +1,9 @@
-import { FormEvent, useState } from 'react';
+import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
+import { useLocalStorage, useNextQueryParam } from 'hooks';
 
 import API from 'api';
 import Button from 'components/Button';
-import { useNextQueryParam } from 'hooks';
+import { FormEvent } from 'react';
 
 interface Props {
   onSetup: (data: { code: string; name: string }) => void;
@@ -11,15 +12,15 @@ interface Props {
 const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
   const queryCode = useNextQueryParam('code');
 
-  const [name, setName] = useState('');
-  const [code, setCode] = useState(queryCode || '');
+  const [code, setCode] = useLocalStorage(GAME_CODE_KEY, queryCode || '');
+  const [playerName, setPlayerName] = useLocalStorage(PLAYER_NAME_KEY, '');
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     try {
-      await API.joinGame(code, name);
-      onSetup({ code, name });
+      await API.joinGame(code, playerName);
+      onSetup({ code, name: playerName });
     } catch (error) {
       console.warn('Try again');
     }
@@ -47,8 +48,8 @@ const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
             className="px-4 py-2 text-2xl font-bold border-2 border-black rounded text-pink"
             type="text"
             required
-            value={name}
-            onChange={({ target: { value } }) => setName(value)}
+            value={playerName}
+            onChange={({ target: { value } }) => setPlayerName(value)}
           />
         </div>
 

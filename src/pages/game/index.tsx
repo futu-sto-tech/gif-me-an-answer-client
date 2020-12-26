@@ -1,6 +1,7 @@
+import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
 import { Game, GameRoundStatus } from 'types';
 import { useEffect, useMemo, useState } from 'react';
-import { useEventSource, useNextQueryParam } from 'hooks';
+import { useEventSource, useLocalStorage, useNextQueryParam } from 'hooks';
 
 import API from 'api';
 import BrowseScreen from 'screens/browse';
@@ -31,8 +32,8 @@ function useGameSubscription(code: string | null): Game | null {
 
 const GamePage: React.FC = () => {
   const queryCode = useNextQueryParam('code');
-  const [code, setCode] = useState<string | null>(queryCode || null);
-  const [playerName, setPlayerName] = useState<string | null>(null);
+  const [code, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, queryCode || null);
+  const [playerName, setPlayerName] = useLocalStorage<string | null>(PLAYER_NAME_KEY, null);
 
   const game = useGameSubscription(code);
   const player = useMemo(() => game?.players.find((item) => item.name === playerName) ?? null, [game, playerName]);
@@ -42,15 +43,11 @@ const GamePage: React.FC = () => {
     setPlayerName(data.name);
   };
 
-  const latestRound = useMemo(() => game?.rounds[game.rounds.length - 1], [game?.rounds]);
+  const latestRound = useMemo(() => game?.rounds.find((item) => item.status !== GameRoundStatus.NOT_STARTED), [
+    game?.rounds,
+  ]);
 
-  const gameOver = useMemo(() => {
-    if (game) {
-      const allRounds = game.rounds.length === game.totalRounds;
-      const allFinished = game.rounds.every((item) => item.status === GameRoundStatus.FINSIHED);
-      return allRounds && allFinished;
-    }
-  }, [game]);
+  const gameOver = useMemo(() => game?.rounds.every((item) => item.status === GameRoundStatus.FINSIHED), [game]);
 
   if (game && player) {
     if (gameOver) {
@@ -67,6 +64,8 @@ const GamePage: React.FC = () => {
           return null;
         case GameRoundStatus.FINSIHED:
           return <FinalResultsScreen game={game} player={player} />;
+        default:
+          throw new Error(`Latest round should never have this status: ${latestRound.status}`);
       }
     }
 
