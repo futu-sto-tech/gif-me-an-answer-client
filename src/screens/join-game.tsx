@@ -19,7 +19,8 @@ const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
     event.preventDefault();
 
     try {
-      await API.joinGame(code, playerName);
+      const player = await API.joinGame(code, playerName);
+      await API.markReadyForGame(code, player);
       onSetup({ code, name: playerName });
     } catch (error) {
       console.warn('Try again');

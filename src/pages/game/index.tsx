@@ -31,8 +31,7 @@ function useGameSubscription(code: string | null): Game | null {
 }
 
 const GamePage: React.FC = () => {
-  const queryCode = useNextQueryParam('code');
-  const [code, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, queryCode || null);
+  const [code, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, null);
   const [playerName, setPlayerName] = useLocalStorage<string | null>(PLAYER_NAME_KEY, null);
 
   const game = useGameSubscription(code);

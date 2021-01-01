@@ -1,15 +1,19 @@
 import API from 'api';
 import Button from 'components/Button';
+import { GAME_CODE_KEY } from 'app-constants';
 import PageTitle from 'components/PageTitle';
+import { useLocalStorage } from 'hooks';
 import { useRouter } from 'next/router';
 
 const GameNewPage: React.FC = () => {
   const router = useRouter();
+  const [, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, null);
 
   const handleSubmit = async () => {
     try {
       const newGame = await API.createGame({ rounds: 5, players: 8 });
-      router.push({ pathname: '/game', query: { code: newGame.code } });
+      setCode(newGame.code);
+      router.push({ pathname: '/game' });
     } catch (error) {
       console.warn('Unable to create game');
     }

@@ -51,7 +51,7 @@ export async function joinGame(code: string, playerName: string): Promise<Player
  * @param player Player details
  * @returns The game object player is ready for
  */
-export async function markReadyForGame(code: number, player: Player): Promise<Game> {
+export async function markReadyForGame(code: string, player: Player): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/ready`,
     method: 'POST',
