@@ -75,7 +75,7 @@ const BrowseScreen: React.FC<ScreenProps> = ({ game, round, player }) => {
           isOpen={true}
         >
           <img src={playerImage.url} className="border-4 border-black" />
-          <Button type="button" buttonText="Selected GIF" />
+          <Button type="button" buttonText="Selected GIF" disabled={true} />
         </Dialog>
       ) : (
         <Dialog

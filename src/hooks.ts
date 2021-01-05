@@ -5,14 +5,17 @@ import { useRouter } from 'next/router';
 export function useEventSource<T>(url: string | null): T | null {
   const events = useRef<EventSource | null>();
   const [data, setData] = useState<T | null>(null);
+  const [eventTypes, setEventTypes] = useState<string[]>([]);
 
   useEffect(() => {
     if (url) {
       events.current = new EventSource(url);
 
-      events.current.addEventListener('playerjoined', (event) => {
-        // @ts-expect-error unable to customize event type
-        setData(JSON.parse(event.data));
+      events.current.addEventListener('message', (event) => {
+        const data = JSON.parse(event.data);
+        if (data.event === 'init') {
+          setEventTypes(data.supportedEvents);
+        }
       });
     }
 
@@ -20,6 +23,25 @@ export function useEventSource<T>(url: string | null): T | null {
       events.current?.close();
     };
   }, [url]);
+
+  useEffect(() => {
+    function updateData(event: Event) {
+      // @ts-expect-error unable to customize event type
+      const data = JSON.parse(event.data);
+      console.log(data);
+      setData(data);
+    }
+
+    for (const eventType of eventTypes) {
+      events.current?.addEventListener(eventType, updateData);
+    }
+
+    return () => {
+      for (const eventType of eventTypes) {
+        events.current?.removeEventListener(eventType, updateData);
+      }
+    };
+  }, [eventTypes]);
 
   return data;
 }
@@ -60,7 +82,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
       // Save state
       setStoredValue(valueToStore);
       // Save to local storage
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      window?.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
       // A more advanced implementation would handle the error case
       console.log(error);

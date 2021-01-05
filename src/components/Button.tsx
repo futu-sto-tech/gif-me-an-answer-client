@@ -8,17 +8,29 @@ const StyledButton = styled.button`
   border-radius: 6px;
   font-weight: 500;
   box-shadow: 5px 5px ${({ theme }) => theme.colors.darkPink};
+  cursor: pointer;
+
   &:hover {
-    background-color: ${({ theme }) => theme.colors.darkPink};
-    box-shadow: none;
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px ${({ theme }) => theme.colors.darkPink};
   }
+
   &:active,
-  &:focus {
+  &:focus,
+  &:disabled,
+  &[disabled] {
+    transform: translate(2px, 2px);
+
     background-color: ${({ theme }) => theme.colors.darkPink};
-    box-shadow: inset 5px 5px #8d0066;
+    box-shadow: 3px 3px #8d0066;
     background-color: ${({ theme }) => theme.colors.pink};
 
     outline: 1px solid transparent;
+  }
+
+  &:disabled,
+  &[disabled] {
+    opacity: 0.5;
   }
 `;
 
@@ -28,9 +40,10 @@ interface IButtonProps {
   buttonText: string;
   handleClick?: () => void;
   type: ButtonType;
+  disabled?: boolean;
 }
 
-const Button: React.FC<IButtonProps> = ({ handleClick, buttonText, type }) => {
+const Button: React.FC<IButtonProps> = ({ handleClick, buttonText, type, disabled }) => {
   return (
     <StyledButton
       type={type}
@@ -40,6 +53,7 @@ const Button: React.FC<IButtonProps> = ({ handleClick, buttonText, type }) => {
           handleClick();
         }
       }}
+      disabled={disabled}
     >
       {buttonText}
     </StyledButton>

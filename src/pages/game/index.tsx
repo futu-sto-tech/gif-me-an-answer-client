@@ -1,7 +1,7 @@
 import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
 import { Game, GameRoundStatus } from 'types';
 import { useEffect, useMemo, useState } from 'react';
-import { useEventSource, useLocalStorage, useNextQueryParam } from 'hooks';
+import { useEventSource, useLocalStorage } from 'hooks';
 
 import API from 'api';
 import BrowseScreen from 'screens/browse';

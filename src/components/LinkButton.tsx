@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
 
 const StyledLink = styled.a`
   background-color: ${({ theme }) => theme.colors.pink};
@@ -9,14 +9,19 @@ const StyledLink = styled.a`
   border-radius: 6px;
   font-weight: 500;
   box-shadow: 5px 5px ${({ theme }) => theme.colors.darkPink};
+  cursor: pointer;
+
   &:hover {
-    background-color: ${({ theme }) => theme.colors.darkPink};
-    box-shadow: none;
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px ${({ theme }) => theme.colors.darkPink};
   }
+
   &:active,
   &:focus {
+    transform: translate(2px, 2px);
+
     background-color: ${({ theme }) => theme.colors.darkPink};
-    box-shadow: inset 5px 5px #8d0066;
+    box-shadow: 3px 3px #8d0066;
     background-color: ${({ theme }) => theme.colors.pink};
 
     outline: 1px solid transparent;
