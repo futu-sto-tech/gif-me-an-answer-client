@@ -113,9 +113,10 @@ export async function submitGif({ code, order, player, gifUrl }: SubmitGifParams
  * @param image Voted image
  * @returns Current game
  */
-export async function vote(code: number, order: string, player: Player, image: number): Promise<Game> {
+export async function vote(code: string, order: number, player: Player, image: string): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/rounds/${order}/vote`,
+    method: 'POST',
     data: {
       player: player.id,
       image: image,

@@ -18,12 +18,15 @@ export const DUMMY_GAME_DATA: Game = {
   ],
 };
 
-export const BASE_PLAYER: Player = {
+const BASE_PLAYER: Player = {
   id: 'player1',
   name: 'Robin',
   points: 0,
   status: PlayerStatus.JOINED,
 };
+
+const PLAYER_ONE: Player = { ...BASE_PLAYER };
+const PLAYER_TWO: Player = { ...BASE_PLAYER, id: 'player2', name: 'Jens' };
 
 const BASE_ROUND: GameRound = {
   order: 0,
@@ -41,10 +44,17 @@ const BASE_GAME: Game = {
   rounds: [BASE_ROUND, { ...BASE_ROUND, order: 1 }, { ...BASE_ROUND, order: 2 }],
 };
 
-const BASE_IMAGE: Image = {
+const PLAYER_ONE_IMAGE: Image = {
   id: 'image1',
   url: 'https://media.giphy.com/media/lXiRKBj0SAA0EWvbG/giphy.gif',
-  playerId: BASE_PLAYER.id,
+  playerId: PLAYER_ONE.id,
+  votes: 0,
+};
+
+const PLAYER_TWO_IMAGE: Image = {
+  id: 'image2',
+  playerId: PLAYER_TWO.id,
+  url: 'https://media.giphy.com/media/xwoZyKqaoVbxeZX2uM/giphy.gif',
   votes: 0,
 };
 
@@ -54,17 +64,21 @@ export const GAME_STARTED: Game = BASE_GAME;
 
 export const GAME_JOINED: Game = {
   ...BASE_GAME,
-  players: [BASE_PLAYER],
+  players: [PLAYER_ONE, PLAYER_TWO],
 };
 
 export const GAME_ROUND_ONE: Game = {
   ...GAME_JOINED,
+  players: GAME_JOINED.players.map((item) => ({ ...item, status: PlayerStatus.READY })),
   rounds: [{ ...GAME_JOINED.rounds[0], status: GameRoundStatus.SELECT_GIF }, ...GAME_JOINED.rounds.slice(1)],
 };
 
 export const GAME_ROUND_SELECTED: Game = {
   ...GAME_ROUND_ONE,
-  rounds: [{ ...GAME_ROUND_ONE.rounds[0], images: [BASE_IMAGE] }, ...GAME_JOINED.rounds.slice(1)],
+  rounds: [
+    { ...GAME_ROUND_ONE.rounds[0], images: [PLAYER_ONE_IMAGE, PLAYER_TWO_IMAGE] },
+    ...GAME_JOINED.rounds.slice(1),
+  ],
 };
 
 export const GAME_ROUND_PRESENT: Game = {
@@ -77,4 +91,16 @@ export const GAME_ROUND_PRESENT: Game = {
     },
     ...GAME_ROUND_SELECTED.rounds.slice(1),
   ],
+};
+
+export const GAME_ROUND_VOTE: Game = {
+  ...GAME_ROUND_PRESENT,
+  rounds: GAME_ROUND_PRESENT.rounds.map((item) =>
+    item.order === 0
+      ? {
+          ...GAME_ROUND_PRESENT.rounds[0],
+          status: GameRoundStatus.VOTE,
+        }
+      : item,
+  ),
 };

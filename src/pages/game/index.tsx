@@ -60,7 +60,7 @@ const GamePage: React.FC = () => {
         case GameRoundStatus.SELECT_GIF:
           return <BrowseScreen game={game} round={latestRound} player={player} />;
         case GameRoundStatus.VOTE:
-          return <VoteScreen game={game} />;
+          return <VoteScreen game={game} round={latestRound} player={player} />;
         case GameRoundStatus.PRESENT:
           return <PresentScreen game={game} round={latestRound} player={player} />;
         case GameRoundStatus.FINISHED:

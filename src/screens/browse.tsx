@@ -1,17 +1,11 @@
-import { Game, GameRound, Gif, Player } from 'types';
+import { Gif, RoundScreenProps } from 'types';
 import { useEffect, useMemo, useState } from 'react';
 
 import API from 'api';
 import Button from 'components/Button';
 import { Dialog } from '@reach/dialog';
 
-interface ScreenProps {
-  game: Game;
-  round: GameRound;
-  player: Player;
-}
-
-const BrowseScreen: React.FC<ScreenProps> = ({ game, round, player }) => {
+const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
   const [value, setValue] = useState('');
   const [image, setImage] = useState<string | null>(null);
   const [gifs, setGifs] = useState<[Gif] | null>(null);

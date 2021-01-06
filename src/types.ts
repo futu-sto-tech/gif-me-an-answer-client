@@ -63,3 +63,9 @@ export interface Gif {
   original: GifImage;
   fixedWidth: GifFixedWidth;
 }
+
+export interface RoundScreenProps {
+  game: Game;
+  round: GameRound;
+  player: Player;
+}

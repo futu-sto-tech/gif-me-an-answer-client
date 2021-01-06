@@ -1,12 +1,6 @@
-import { Game, GameRound, Player } from 'types';
+import { RoundScreenProps } from 'types';
 
-interface ScreenProps {
-  game: Game;
-  round: GameRound;
-  player: Player;
-}
-
-const PresentScreen: React.FC<ScreenProps> = ({ round }) => {
+const PresentScreen: React.FC<RoundScreenProps> = ({ round }) => {
   return (
     <div className="flex flex-col items-center justify-center h-full space-y-12">
       <div className="flex flex-col items-center justify-center space-y-4">
