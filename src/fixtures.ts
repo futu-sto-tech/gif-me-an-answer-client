@@ -10,7 +10,7 @@ export const DUMMY_GAME_DATA: Game = {
   rounds: [
     {
       order: 1,
-      status: GameRoundStatus.FINSIHED,
+      status: GameRoundStatus.FINISHED,
       caption: 'Hello jebuz',
       presentImage: '',
       images: [],
@@ -20,25 +20,25 @@ export const DUMMY_GAME_DATA: Game = {
 
 export const BASE_PLAYER: Player = {
   id: 'player1',
-  name: 'Playya',
+  name: 'Robin',
   points: 0,
   status: PlayerStatus.JOINED,
+};
+
+const BASE_ROUND: GameRound = {
+  order: 0,
+  status: GameRoundStatus.NOT_STARTED,
+  caption: "What a day I've had...",
+  presentImage: '',
+  images: [],
 };
 
 const BASE_GAME: Game = {
   code: '7856',
   players: [],
   status: GameStatus.ACTIVE,
-  totalRounds: 8,
-  rounds: [],
-};
-
-const BASE_ROUND: GameRound = {
-  order: 1,
-  status: GameRoundStatus.SELECT_GIF,
-  caption: "What a day I've had...",
-  presentImage: '',
-  images: [],
+  totalRounds: 3,
+  rounds: [BASE_ROUND, { ...BASE_ROUND, order: 1 }, { ...BASE_ROUND, order: 2 }],
 };
 
 const BASE_IMAGE: Image = {
@@ -59,10 +59,22 @@ export const GAME_JOINED: Game = {
 
 export const GAME_ROUND_ONE: Game = {
   ...GAME_JOINED,
-  rounds: [BASE_ROUND],
+  rounds: [{ ...GAME_JOINED.rounds[0], status: GameRoundStatus.SELECT_GIF }, ...GAME_JOINED.rounds.slice(1)],
 };
 
 export const GAME_ROUND_SELECTED: Game = {
   ...GAME_ROUND_ONE,
-  rounds: [{ ...GAME_ROUND_ONE.rounds[0], images: [BASE_IMAGE] }],
+  rounds: [{ ...GAME_ROUND_ONE.rounds[0], images: [BASE_IMAGE] }, ...GAME_JOINED.rounds.slice(1)],
+};
+
+export const GAME_ROUND_PRESENT: Game = {
+  ...GAME_ROUND_SELECTED,
+  rounds: [
+    {
+      ...GAME_ROUND_SELECTED.rounds[0],
+      status: GameRoundStatus.PRESENT,
+      presentImage: GAME_ROUND_SELECTED.rounds[0].images[0].url,
+    },
+    ...GAME_ROUND_SELECTED.rounds.slice(1),
+  ],
 };

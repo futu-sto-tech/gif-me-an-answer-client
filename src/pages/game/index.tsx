@@ -9,6 +9,8 @@ import FinalResultsScreen from 'screens/final-results';
 import FinalWinnerScreen from 'screens/final-winner';
 import JoinGameScreen from 'screens/join-game';
 import LobbyScreen from 'screens/lobby';
+import PresentScreen from 'screens/present';
+import VoteScreen from 'screens/vote';
 
 function useGameSubscription(code: string | null): Game | null {
   const [game, setGame] = useState<Game | null>(null);
@@ -46,7 +48,7 @@ const GamePage: React.FC = () => {
     game?.rounds,
   ]);
 
-  const gameOver = useMemo(() => game?.rounds.every((item) => item.status === GameRoundStatus.FINSIHED), [game]);
+  const gameOver = useMemo(() => game?.rounds.every((item) => item.status === GameRoundStatus.FINISHED), [game]);
 
   if (game && player) {
     if (gameOver) {
@@ -58,10 +60,10 @@ const GamePage: React.FC = () => {
         case GameRoundStatus.SELECT_GIF:
           return <BrowseScreen game={game} round={latestRound} player={player} />;
         case GameRoundStatus.VOTE:
-          return null;
+          return <VoteScreen game={game} />;
         case GameRoundStatus.PRESENT:
-          return null;
-        case GameRoundStatus.FINSIHED:
+          return <PresentScreen game={game} round={latestRound} player={player} />;
+        case GameRoundStatus.FINISHED:
           return <FinalResultsScreen game={game} player={player} />;
         default:
           throw new Error(`Latest round should never have this status: ${latestRound.status}`);

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import Link from 'next/link';
+import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
 const Navigation = styled.nav`
@@ -15,6 +15,7 @@ const Navigation = styled.nav`
 const MainContainer = styled.main`
   width: 90%;
   margin: 0 auto;
+  flex: 1;
 `;
 
 const GameRound = styled.div`
@@ -41,9 +42,9 @@ const MainLayout: React.FC = ({ children }) => {
   const { pathname } = useRouter();
   console.log(pathname);
   return (
-    <>
+    <div className="flex flex-col h-screen">
       {pathname !== '/' ? (
-        <Navigation className="flex ">
+        <Navigation className="flex flex-shrink-0">
           <Link href="/">
             <a>
               <img src="/assets/logo.png" alt="logo" />
@@ -60,7 +61,7 @@ const MainLayout: React.FC = ({ children }) => {
         </Navigation>
       ) : null}
       <MainContainer>{children}</MainContainer>
-    </>
+    </div>
   );
 };
 
