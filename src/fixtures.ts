@@ -118,6 +118,18 @@ export const GAME_ROUND_RESULTS: Game = {
   ),
 };
 
+export const GAME_OVER: Game = {
+  ...GAME_ROUND_RESULTS,
+  rounds: GAME_ROUND_RESULTS.rounds.map((item) => ({
+    ...item,
+    status: GameRoundStatus.FINISHED,
+  })),
+  players: GAME_ROUND_RESULTS.players.map((item) => ({
+    ...item,
+    points: randomIntFromInterval(0, 40),
+  })),
+};
+
 function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

@@ -1,7 +1,7 @@
 import { Game, Player } from 'types';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import Button from 'components/Button';
+import LinkButton from 'components/LinkButton';
 
 interface IFinalWinnerScreenProps {
   game: Game;
@@ -17,16 +17,7 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
     }, 5000);
   }, []);
 
-  const handleQuit = () => {
-    console.log('quit');
-  };
-
-  const handleAgain = () => {
-    console.log('again');
-  };
-
-  const winnerPoints = Math.max(...game.players.map((p) => p.points));
-  const winningPlayer = game.players.find((gamePlayer) => (gamePlayer.points = winnerPoints));
+  const winningPlayer = useMemo(() => game.players.sort((a, b) => (a.points > b.points ? -1 : 1))[0], [game.players]);
 
   return (
     <div className="flex flex-col items-center h-screen p-12 space-y-12">
@@ -44,9 +35,8 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
 
         {shouldShowButtons && (
           <div className="flex items-center justify-between space-x-6">
-            <Button type="button" handleClick={handleQuit} buttonText="Quit" />
-
-            <Button type="button" handleClick={handleAgain} buttonText="Again" />
+            <LinkButton href="/" linkText="Quit" />
+            <LinkButton href="/game/new" linkText="Play again" />
           </div>
         )}
       </div>
