@@ -5,43 +5,29 @@ import { useRouter } from 'next/router';
 export function useEventSource<T>(url: string | null): T | null {
   const events = useRef<EventSource | null>();
   const [data, setData] = useState<T | null>(null);
-  const [eventTypes, setEventTypes] = useState<string[]>([]);
 
   useEffect(() => {
+    function updateEvents(event: Event) {
+      // @ts-expect-error unable to customize event type
+      const data = JSON.parse(event.data);
+      if (data.event === 'init') {
+        console.log('INIT EVENT', data.supportedEvents);
+      } else {
+        console.log(`NEW EVENT: ${data.event}`, data.data);
+        setData(data.data);
+      }
+    }
+
     if (url) {
       events.current = new EventSource(url);
-
-      events.current.addEventListener('message', (event) => {
-        const data = JSON.parse(event.data);
-        if (data.event === 'init') {
-          setEventTypes(data.supportedEvents);
-        }
-      });
+      events.current.addEventListener('message', updateEvents);
     }
 
     return () => {
+      events.current?.removeEventListener('message', updateEvents);
       events.current?.close();
     };
   }, [url]);
-
-  useEffect(() => {
-    function updateData(event: Event) {
-      // @ts-expect-error unable to customize event type
-      const data = JSON.parse(event.data);
-      console.log(data);
-      setData(data);
-    }
-
-    for (const eventType of eventTypes) {
-      events.current?.addEventListener(eventType, updateData);
-    }
-
-    return () => {
-      for (const eventType of eventTypes) {
-        events.current?.removeEventListener(eventType, updateData);
-      }
-    };
-  }, [eventTypes]);
 
   return data;
 }
