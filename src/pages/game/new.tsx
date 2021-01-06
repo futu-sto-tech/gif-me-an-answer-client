@@ -4,14 +4,17 @@ import { GAME_CODE_KEY } from 'app-constants';
 import PageTitle from 'components/PageTitle';
 import { useLocalStorage } from 'hooks';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const GameNewPage: React.FC = () => {
   const router = useRouter();
   const [, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, null);
+  const [rounds, setRounds] = useState(1);
+  const [players, setPlayers] = useState(2);
 
   const handleSubmit = async () => {
     try {
-      const newGame = await API.createGame({ rounds: 5, players: 8 });
+      const newGame = await API.createGame({ rounds, players });
       setCode(newGame.code);
       router.push({ pathname: '/game' });
     } catch (error) {
@@ -20,10 +23,39 @@ const GameNewPage: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center py-12 space-y-12">
       <PageTitle>Create a new game</PageTitle>
+
+      <form className="flex flex-col space-y-4">
+        <label htmlFor="rounds" className="text-lg font-bold text-center text-white">
+          How many rounds would you like to play?
+        </label>
+        <p className="text-4xl font-bold text-center text-white">{rounds} Rounds</p>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={rounds}
+          onChange={({ target: { value } }) => setRounds(parseInt(value))}
+          id="rounds"
+        />
+
+        <label htmlFor="players" className="text-lg font-bold text-center text-white">
+          Set the amount of players
+        </label>
+        <p className="text-4xl font-bold text-center text-white">{players} Players</p>
+        <input
+          type="range"
+          min="2"
+          max="20"
+          value={players}
+          onChange={({ target: { value } }) => setPlayers(parseInt(value))}
+          id="players"
+        />
+      </form>
+
       <Button type="button" buttonText="Next" handleClick={handleSubmit} />
-    </>
+    </div>
   );
 };
 
