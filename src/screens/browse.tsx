@@ -1,14 +1,33 @@
 import { Gif, RoundScreenProps } from 'types';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import API from 'api';
 import Button from 'components/Button';
 import { Dialog } from '@reach/dialog';
 
+const RANDOM_GIF_LIST = [
+  'https://media.giphy.com/media/h26R1JMxiqYpwp0rkF/giphy.gif',
+  'https://media.giphy.com/media/l4JyRqcDU93S334KQ/giphy.gif',
+  'https://media.giphy.com/media/2YoRN2MrRKNTzg7LJb/giphy.gif',
+];
+
+function getRandomGif() {
+  return RANDOM_GIF_LIST[Math.floor(Math.random() * RANDOM_GIF_LIST.length)];
+}
+
 const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
   const [value, setValue] = useState('');
   const [image, setImage] = useState<string | null>(null);
   const [gifs, setGifs] = useState<[Gif] | null>(null);
+
+  const handleSubmitGif = useCallback(
+    async (url: string) => {
+      await API.submitGif({ code: game.code, order: round.order, player, gifUrl: url });
+    },
+    [game.code, round.order, player],
+  );
+
+  const playerImage = useMemo(() => round.images.find((item) => item.playerId === player.id), [round, player]);
 
   const [secondsLeft, setSecondsLeft] = useState(60 * 2);
 
@@ -19,6 +38,13 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
     return () => clearInterval(handle);
   });
 
+  useEffect(() => {
+    if (secondsLeft < 0 && playerImage === undefined) {
+      const randomGif = getRandomGif();
+      handleSubmitGif(randomGif);
+    }
+  }, [secondsLeft, handleSubmitGif, playerImage]);
+
   function handleSearch(e: React.KeyboardEvent) {
     if (e.key === 'Enter') {
       (async () => {
@@ -27,12 +53,6 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
       })();
     }
   }
-
-  const handleSubmitGif = async (url: string) => {
-    await API.submitGif({ code: game.code, order: round.order, player, gifUrl: url });
-  };
-
-  const playerImage = useMemo(() => round.images.find((item) => item.playerId === player.id), [round, player]);
 
   return (
     <div className="flex flex-col items-center p-12 space-y-6">
@@ -52,7 +72,7 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
         />
       </div>
       <div className="gap-4 masonry">
-        {gifs?.map(({ original, id }) => {
+        {gifs?.slice(0, 20).map(({ original, id }) => {
           console.log(original.url);
           return (
             <button key={id} onClick={() => setImage(original.url)} className="w-full h-full">
