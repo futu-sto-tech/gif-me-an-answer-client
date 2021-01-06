@@ -1,30 +1,24 @@
-import { Game, Player } from 'types';
-
+import API from 'api';
 import Button from 'components/Button';
 import ResultChart from 'components/ResultChart';
+import { RoundScreenProps } from 'types';
 
-interface IFinalResultsScreenProps {
-  game: Game;
-  player: Player;
-}
-
-const FinalResultsScreen: React.FC<IFinalResultsScreenProps> = ({ game }) => {
-  const handleSubmit = () => {
+const FinalResultsScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
+  const handleSubmit = async () => {
     console.log('clicked ready for next round');
+    await API.markReadyForNextRound(game.code, round.order, player);
   };
 
-  const resultData = game.players.map((p) => ({
-    playerName: p.name,
-    points: p.points,
+  const resultData = round.images.map((image) => ({
+    playerName: game.players.find((item) => item.id === image.playerId)?.name || 'Unknown',
+    points: image.votes,
   }));
 
   return (
-    <div className="flex flex-col items-center h-screen p-12 space-y-12">
+    <div className="flex flex-col items-center h-full py-12 space-y-12">
       <h1 className="text-4xl font-bold text-white">The results are in</h1>
       <ResultChart data={resultData} />
-      <form className="space-y-12" onSubmit={handleSubmit}>
-        <Button type="submit" buttonText="Ready for next round" />
-      </form>
+      <Button type="button" buttonText="Ready for next round" handleClick={handleSubmit} />
     </div>
   );
 };

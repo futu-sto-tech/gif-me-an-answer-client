@@ -64,7 +64,7 @@ const GamePage: React.FC = () => {
         case GameRoundStatus.PRESENT:
           return <PresentScreen game={game} round={latestRound} player={player} />;
         case GameRoundStatus.FINISHED:
-          return <FinalResultsScreen game={game} player={player} />;
+          return <FinalResultsScreen game={game} player={player} round={latestRound} />;
         default:
           throw new Error(`Latest round should never have this status: ${latestRound.status}`);
       }

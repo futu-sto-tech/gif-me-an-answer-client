@@ -1,5 +1,6 @@
-import React from 'react';
 import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, XAxis } from 'recharts';
+
+import React from 'react';
 
 interface IResultChartProps {
   data: { playerName: string; points: number }[];
@@ -20,7 +21,7 @@ const ResultChart: React.FC<IResultChartProps> = ({ data }) => {
         <XAxis dataKey="name" tickLine={false} stroke="white" />
 
         <Bar dataKey="value" fill="#DD01A1">
-          <LabelList dataKey="value" position="top" offset={10} className="fill-current text-white" />
+          <LabelList dataKey="value" position="top" offset={10} className="text-white fill-current" />
         </Bar>
       </BarChart>
     </ResponsiveContainer>

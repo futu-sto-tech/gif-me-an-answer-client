@@ -104,3 +104,20 @@ export const GAME_ROUND_VOTE: Game = {
       : item,
   ),
 };
+
+export const GAME_ROUND_RESULTS: Game = {
+  ...GAME_ROUND_VOTE,
+  rounds: GAME_ROUND_VOTE.rounds.map((item) =>
+    item.order === 0
+      ? {
+          ...GAME_ROUND_VOTE.rounds[0],
+          status: GameRoundStatus.FINISHED,
+          images: GAME_ROUND_VOTE.rounds[0].images.map((item) => ({ ...item, votes: randomIntFromInterval(0, 8) })),
+        }
+      : item,
+  ),
+};
+
+function randomIntFromInterval(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}

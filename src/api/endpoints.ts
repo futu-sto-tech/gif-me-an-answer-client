@@ -68,7 +68,7 @@ export async function markReadyForGame(code: string, player: Player): Promise<Ga
  * @param player Player details
  * @returns Current game
  */
-export async function markReadyForNextRound(code: number, order: number, player: Player): Promise<Game> {
+export async function markReadyForNextRound(code: string, order: number, player: Player): Promise<Game> {
   return await apiFetcher({
     url: `/games/${code}/rounds/${order}/done`,
     method: 'POST',
