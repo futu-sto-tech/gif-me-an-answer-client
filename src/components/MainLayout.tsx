@@ -47,7 +47,7 @@ const MainLayout: React.FC = ({ children }) => {
         <Navigation className="flex flex-shrink-0">
           <Link href="/">
             <a>
-              <img src="/assets/logo.png" alt="logo" />
+              <img src="/assets/Logo.png" alt="logo" />
             </a>
           </Link>
           <GameRound>
