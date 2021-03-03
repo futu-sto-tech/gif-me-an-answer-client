@@ -18,7 +18,7 @@ function useGameSubscription(code: string | null): Game | null {
   useEffect(() => {
     async function fetchInitialGame() {
       if (code) {
-        const initialGame = await API.findGames(code);
+        const initialGame = await API.findGame(code);
         setGame(initialGame);
       }
     }
@@ -44,9 +44,18 @@ const GamePage: React.FC = () => {
     setPlayerName(data.name);
   };
 
-  const latestRound = useMemo(() => game?.rounds.find((item) => item.status !== GameRoundStatus.NOT_STARTED), [
-    game?.rounds,
-  ]);
+  const latestRound = useMemo(() => {
+    const activeRound = game?.rounds.find((item) => item.status !== GameRoundStatus.FINISHED);
+
+    if (activeRound?.status === GameRoundStatus.NOT_STARTED) {
+      return game?.rounds
+        .slice()
+        .reverse()
+        .find((item) => item.status === GameRoundStatus.FINISHED);
+    }
+
+    return activeRound;
+  }, [game?.rounds]);
 
   const gameOver = useMemo(() => game?.rounds.every((item) => item.status === GameRoundStatus.FINISHED), [game]);
 
