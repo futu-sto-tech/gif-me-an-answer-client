@@ -28,13 +28,16 @@ const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
   };
 
   return (
-    <div className="flex flex-col items-center p-12 space-y-12">
-      <h1 className="text-4xl font-bold text-white">Join Game</h1>
-      <form className="flex flex-col justify-center space-y-12" onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="h-full flex flex-col justify-between py-12 md:items-center md:justify-start md:space-y-24"
+    >
+      <h1 className="text-4xl font-extrabold text-white text-center">Join Game</h1>
+      <div className="flex flex-col justify-center space-y-8">
         <div className="space-y-2">
           <h2 className="text-lg font-bold text-center text-white">Game code</h2>
           <input
-            className="px-4 py-2 text-2xl font-bold border-2 border-black rounded text-pink"
+            className="px-4 py-2 text-2xl font-bold border-2 border-black rounded text-pink w-full"
             type="text"
             pattern="[0-9]{4}"
             required
@@ -46,17 +49,17 @@ const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
         <div className="space-y-2">
           <h2 className="text-lg font-bold text-center text-white">Name</h2>
           <input
-            className="px-4 py-2 text-2xl font-bold border-2 border-black rounded text-pink"
+            className="px-4 py-2 text-2xl font-bold border-2 border-black rounded text-pink w-full"
             type="text"
             required
             value={playerName}
             onChange={({ target: { value } }) => setPlayerName(value)}
           />
         </div>
+      </div>
 
-        <Button buttonText="Play!" type="submit" />
-      </form>
-    </div>
+      <Button buttonText="Play!" type="submit" />
+    </form>
   );
 };
 
