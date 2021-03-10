@@ -1,21 +1,17 @@
 import LinkButton from 'components/LinkButton';
-import styled from 'styled-components';
-
-const MainContainer = styled.main`
-  width: 60%;
-  margin: 0 auto;
-`;
 
 const IndexPage: React.FC = () => {
   return (
-    <MainContainer className="flex flex-col items-center justify-center h-screen">
-      <img src="/assets/bongocat-1.png" alt="moscot cat" />
-      <img src="/assets/Logo.png" alt="logo" className="mb-9" />
-      <div className="grid gap-8 lg:grid-cols-2">
-        <LinkButton linkText="Join game" href="/game/" />
-        <LinkButton linkText="Host game" href="/game/new" />
+    <main className="h-screen flex flex-col justify-between py-8 md:items-center md:justify-center md:space-y-16">
+      <div className="pt-8 md:pt-0">
+        <img src="/assets/bongocat-1.png" alt="mascot cat" width={129} height={129} className="mx-auto" />
+        <img src="/assets/Logo.png" alt="logo" width={240} height={179} className="mx-auto" />
       </div>
-    </MainContainer>
+      <div className="grid gap-8 md:grid-cols-2">
+        <LinkButton linkText="Join game" href="/game/" />
+        <LinkButton linkText="Host a game" href="/game/new" />
+      </div>
+    </main>
   );
 };
 

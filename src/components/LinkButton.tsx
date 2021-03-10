@@ -10,6 +10,7 @@ const StyledLink = styled.a`
   font-weight: 500;
   box-shadow: 5px 5px ${({ theme }) => theme.colors.darkPink};
   cursor: pointer;
+  text-align: center;
 
   &:hover {
     transform: translate(-2px, -2px);
