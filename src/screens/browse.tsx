@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import API from 'api';
 import Button from 'components/Button';
 import { Dialog } from '@reach/dialog';
+import useDebounce from 'hooks';
 
 const RANDOM_GIF_LIST = [
   'https://media.giphy.com/media/h26R1JMxiqYpwp0rkF/giphy.gif',
@@ -17,8 +18,9 @@ function getRandomGif() {
 
 const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
   const [value, setValue] = useState('');
+  const debouncedValue = useDebounce(value, 1500);
   const [image, setImage] = useState<string | null>(null);
-  const [gifs, setGifs] = useState<[Gif] | null>(null);
+  const [gifs, setGifs] = useState<Gif[] | null>(null);
 
   const handleSubmitGif = useCallback(
     async (url: string) => {
@@ -47,12 +49,22 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
 
   function handleSearch(e: React.KeyboardEvent) {
     if (e.key === 'Enter') {
-      (async () => {
-        const gifData = await API.searchGifs(value);
-        setGifs(gifData);
-      })();
+      updateGifImages(value);
     }
   }
+
+  const updateGifImages = useCallback(async (query: string) => {
+    const gifData = await API.searchGifs(query);
+    setGifs(gifData);
+  }, []);
+
+  useEffect(() => {
+    if (debouncedValue) {
+      updateGifImages(debouncedValue);
+    } else {
+      setGifs([]);
+    }
+  }, [updateGifImages, debouncedValue]);
 
   return (
     <div className="flex flex-col items-center py-6 space-y-6">

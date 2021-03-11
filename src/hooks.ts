@@ -48,10 +48,14 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
-      // Get from local storage by key
-      const item = window?.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
-      return item ? JSON.parse(item) : initialValue;
+      if (typeof window !== 'undefined') {
+        // Get from local storage by key
+        const item = window?.localStorage.getItem(key);
+        // Parse stored json or if none return initialValue
+        return item ? JSON.parse(item) : initialValue;
+      } else {
+        return initialValue;
+      }
     } catch (error) {
       // If error also return initialValue
       console.log(error);
@@ -76,4 +80,16 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
   };
 
   return [storedValue, setValue];
+}
+
+export default function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
 }

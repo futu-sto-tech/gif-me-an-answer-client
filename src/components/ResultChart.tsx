@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, LabelList, ResponsiveContainer, XAxis } from 'recharts';
+import { Bar, BarChart, XAxis, ResponsiveContainer, Cell } from 'recharts';
 
 import React from 'react';
 
@@ -17,11 +17,19 @@ const ResultChart: React.FC<IResultChartProps> = ({ data }) => {
   return (
     <ResponsiveContainer>
       <BarChart data={sanitisedData} margin={{ top: 50 }}>
-        <CartesianGrid vertical={false} horizontal={false} />
         <XAxis dataKey="name" tickLine={false} stroke="white" />
 
-        <Bar dataKey="value" fill="#DD01A1">
-          <LabelList dataKey="value" position="top" offset={10} className="text-white fill-current" />
+        <Bar
+          dataKey="value"
+          label={{
+            position: 'top',
+            fill: 'white',
+            formatter: (value) => (value === 1 ? `1 vote` : `${value} votes`),
+          }}
+        >
+          {sanitisedData.map((_, index) => (
+            <Cell fill={index === 0 ? '#DD01A1' : '#8D0066'} key={`cell-${index}`} />
+          ))}
         </Bar>
       </BarChart>
     </ResponsiveContainer>
