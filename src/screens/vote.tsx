@@ -29,10 +29,8 @@ const VoteScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
 
   return (
     <div className="py-12 space-y-12">
-      <div className="flex flex-col items-center space-y-2">
-        <h1 className="text-4xl font-bold text-white">Time to vote!</h1>
-        <p className="text-xl text-white">{round.caption}</p>
-      </div>
+      <h1 className="text-4xl font-extrabold text-center text-white">Time to vote!</h1>
+      <p className="text-xl text-white font-extrabold text-center">{round.caption}</p>
       <div className="gap-4 masonry">
         {imagesToVoteFor.map((item) => (
           <button key={item.id} onClick={() => setImage(item)} className="w-full h-full">
@@ -43,12 +41,12 @@ const VoteScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
 
       <Dialog
         aria-label="Selected GIF"
-        className="flex flex-col items-center space-y-8 shadow-2xl bg-background rounded-xl"
+        className="p-6 bg-transparent w-full"
         isOpen={voted || image !== null}
         onDismiss={() => voted || setImage(null)}
       >
         {image && (
-          <>
+          <div className="space-y-8 px-4 py-8 shadow-2xl bg-background rounded-xl border-4 border-pink flex flex-col items-center max-w-lg mx-auto">
             <img src={image.url} className="border-4 border-black" />
             <Button
               type="button"
@@ -56,7 +54,7 @@ const VoteScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
               disabled={voted}
               handleClick={() => handleSubmit(image)}
             />
-          </>
+          </div>
         )}
       </Dialog>
     </div>

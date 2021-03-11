@@ -55,14 +55,14 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
   }
 
   return (
-    <div className="flex flex-col items-center p-12 space-y-6">
+    <div className="flex flex-col items-center py-6 space-y-6">
       <div className="flex items-center justify-center w-24 h-24 text-2xl font-bold text-black bg-white rounded-full">
         {Math.floor(secondsLeft / 60)}:{secondsLeft - 60 * Math.floor(secondsLeft / 60)}
       </div>
       <div className="w-full max-w-xl space-y-6">
         <p className="text-xl font-bold text-center text-white">{round.caption} </p>
         <input
-          className="w-full px-4 py-2 text-2xl font-bold border-2 border-black rounded text-pink"
+          className="w-full px-4 py-2 text-lg font-bold border-2 border-black rounded text-pink"
           type="text"
           required
           value={value}
@@ -83,26 +83,24 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
       </div>
 
       {playerImage ? (
-        <Dialog
-          aria-label="selected gif"
-          className="flex flex-col items-center space-y-8 shadow-2xl bg-background rounded-xl"
-          isOpen={true}
-        >
-          <img src={playerImage.url} className="border-4 border-black" />
-          <Button type="button" buttonText="Selected GIF" disabled={true} />
+        <Dialog aria-label="selected gif" className="p-6 bg-transparent w-full" isOpen={true}>
+          <div className="space-y-8 px-4 py-8 shadow-2xl bg-background rounded-xl border-4 border-pink flex flex-col items-center max-w-lg mx-auto">
+            <img src={playerImage.url} className="border-4 border-black" />
+            <Button type="button" buttonText="Selected GIF" disabled={true} />
+          </div>
         </Dialog>
       ) : (
         <Dialog
           aria-label="selected gif"
-          className="flex flex-col items-center space-y-8 shadow-2xl bg-background rounded-xl"
+          className="p-6 bg-transparent w-full"
           isOpen={image !== null}
           onDismiss={() => setImage(null)}
         >
           {image && (
-            <>
+            <div className="space-y-8 px-4 py-8 shadow-2xl bg-background rounded-xl border-4 border-pink flex flex-col items-center max-w-lg mx-auto">
               <img src={image} className="border-4 border-black" />
               <Button type="button" buttonText="Select GIF" handleClick={() => handleSubmitGif(image)} />
-            </>
+            </div>
           )}
         </Dialog>
       )}

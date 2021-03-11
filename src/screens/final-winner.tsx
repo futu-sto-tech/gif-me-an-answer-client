@@ -24,19 +24,20 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
   ]);
 
   return (
-    <div className="flex flex-col items-center h-screen p-12 space-y-12">
-      <h1 className="text-2xl font-bold text-white">{winningPlayers.length > 1 ? 'Winners' : 'Winner'}:</h1>
+    <div className="flex flex-col justify-between h-full py-6 space-y-6 md:space-y-12 md:py-24">
+      <h1 className="text-lg text-center font-bold text-white">{winningPlayers.length > 1 ? 'Winners' : 'Winner'}:</h1>
 
       <div className="flex flex-col items-center space-y-4">
-        <img src="/assets/crown.svg" />
+        <div>
+          <img src="/assets/crown.svg" />
+          <p className="text-pink-500 text-center text-lg font-bold">{winningScore} points</p>
+        </div>
 
         {winningPlayers.map((item) => (
           <h1 key={item.id} className="text-4xl font-bold text-white text-center">
             {item.name}
           </h1>
         ))}
-
-        <p className="text-pink-500 text-center text-lg font-bold">{winningScore} points</p>
       </div>
 
       <div>
@@ -45,7 +46,7 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
         </div>
 
         {shouldShowButtons && (
-          <div className="flex items-center justify-between space-x-6">
+          <div className="grid gap-6 md:grid-cols-2 max-w-md mx-auto">
             <LinkButton href="/" linkText="Quit" />
             <LinkButton href="/game/new" linkText="Play again" />
           </div>
