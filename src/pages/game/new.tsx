@@ -23,7 +23,7 @@ const GameNewPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col py-12 space-y-12 md:items-center">
+    <div className="flex flex-col justify-between h-full py-6 space-y-12 md:items-center md:justify-center md:space-y-24">
       <PageTitle>Create a new game</PageTitle>
 
       <form className="space-y-12">
