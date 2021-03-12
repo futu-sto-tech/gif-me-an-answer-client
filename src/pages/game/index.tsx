@@ -11,7 +11,6 @@ import JoinGameScreen from 'screens/join-game';
 import LobbyScreen from 'screens/lobby';
 import PresentScreen from 'screens/present';
 import VoteScreen from 'screens/vote';
-import { GAME_ROUND_PRESENT } from 'fixtures';
 import MainLayout from 'components/MainLayout';
 
 function useGameSubscription(code: string | null): Game | null {
@@ -31,7 +30,7 @@ function useGameSubscription(code: string | null): Game | null {
   const gameSub = useEventSource<Game>(code ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/games/${code}/events` : null);
   useEffect(() => setGame(gameSub), [gameSub]);
 
-  return GAME_ROUND_PRESENT;
+  return game;
 }
 
 const GamePage: React.FC = () => {
