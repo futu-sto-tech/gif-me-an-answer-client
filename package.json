@@ -4,7 +4,7 @@
   "description": "GIF Me An Answer (client)",
   "main": "index.js",
   "engines": {
-    "node": ">=15.0.0",
+    "node": ">=14.0.0",
     "npm": ">=6.0.0"
   },
   "scripts": {
