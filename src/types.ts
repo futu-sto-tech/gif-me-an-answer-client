@@ -1,6 +1,6 @@
 export enum GameStatus {
-  ACTIVE,
-  FINISHED,
+  ACTIVE = 'ACTIVE',
+  FINISHED = 'FINISHED',
 }
 
 export interface Game {
