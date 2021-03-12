@@ -1,5 +1,5 @@
 import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
-import { Game, GameRoundStatus } from 'types';
+import { Game, GameRoundStatus, GameStatus } from 'types';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useEventSource, useLocalStorage } from 'hooks';
 
@@ -58,12 +58,10 @@ const GamePage: React.FC = () => {
     return activeRound;
   }, [game?.rounds]);
 
-  const gameOver = useMemo(() => game?.rounds.every((item) => item.status === GameRoundStatus.FINISHED), [game]);
-
   let screen = <JoinGameScreen onSetup={handleSetup} />;
 
   if (game && player) {
-    if (gameOver) {
+    if (game.status === GameStatus.FINISHED) {
       screen = <FinalWinnerScreen game={game} player={player} />;
     } else if (latestRound) {
       switch (latestRound.status) {
