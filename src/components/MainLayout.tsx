@@ -59,7 +59,7 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children, currentRound, totalR
               <img src="/assets/round.svg" alt="logo" />
               <div>
                 <p>
-                  <span>Round</span> {currentRound.order + 1}/{totalRounds}
+                  <span>Round</span> {currentRound.order}/{totalRounds}
                 </p>
               </div>
             </GameRound>
