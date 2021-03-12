@@ -1,5 +1,5 @@
 import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
-import { Game, GameRoundStatus, GameStatus } from 'types';
+import { Game, GameRound, GameRoundStatus, GameStatus, Player } from 'types';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useEventSource, useLocalStorage } from 'hooks';
 
@@ -33,6 +33,36 @@ function useGameSubscription(code: string | null): Game | null {
   return game;
 }
 
+const getCurrentScreen = (game?: Game | null, player?: Player | null, latestRound?: GameRound) => {
+  if (!game || !player) {
+    return;
+  }
+
+  if (game.status === GameStatus.FINISHED) {
+    return <FinalWinnerScreen game={game} player={player} />;
+  }
+
+  if (latestRound) {
+    switch (latestRound.status) {
+      case GameRoundStatus.NOT_STARTED:
+        return <LobbyScreen game={game} />;
+      case GameRoundStatus.SELECT_GIF:
+        return <BrowseScreen game={game} round={latestRound} player={player} />;
+      case GameRoundStatus.VOTE:
+        return <VoteScreen game={game} round={latestRound} player={player} />;
+      case GameRoundStatus.PRESENT:
+        return <PresentScreen game={game} round={latestRound} player={player} />;
+      case GameRoundStatus.FINISHED:
+        return <FinalResultsScreen game={game} player={player} round={latestRound} />;
+      default:
+        throw new Error(`Latest round should never have this status: ${latestRound.status}`);
+    }
+  }
+
+  console.error(`Unexpected screen state`, game, latestRound);
+  throw new Error('Unexpected screen state!');
+};
+
 const GamePage: React.FC = () => {
   const [code, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, null);
   const [playerName, setPlayerName] = useLocalStorage<string | null>(PLAYER_NAME_KEY, null);
@@ -45,45 +75,9 @@ const GamePage: React.FC = () => {
     setPlayerName(data.name);
   };
 
-  const latestRound = useMemo(() => {
-    const activeRound = game?.rounds.find((item) => item.status !== GameRoundStatus.FINISHED);
+  const latestRound = useMemo(() => game?.rounds.find((item) => item.order === game?.currentRound), [game?.rounds]);
 
-    if (activeRound?.status === GameRoundStatus.NOT_STARTED) {
-      return game?.rounds
-        .slice()
-        .reverse()
-        .find((item) => item.status === GameRoundStatus.FINISHED);
-    }
-
-    return activeRound;
-  }, [game?.rounds]);
-
-  let screen = <JoinGameScreen onSetup={handleSetup} />;
-
-  if (game && player) {
-    if (game.status === GameStatus.FINISHED) {
-      screen = <FinalWinnerScreen game={game} player={player} />;
-    } else if (latestRound) {
-      switch (latestRound.status) {
-        case GameRoundStatus.SELECT_GIF:
-          screen = <BrowseScreen game={game} round={latestRound} player={player} />;
-          break;
-        case GameRoundStatus.VOTE:
-          screen = <VoteScreen game={game} round={latestRound} player={player} />;
-          break;
-        case GameRoundStatus.PRESENT:
-          screen = <PresentScreen game={game} round={latestRound} player={player} />;
-          break;
-        case GameRoundStatus.FINISHED:
-          screen = <FinalResultsScreen game={game} player={player} round={latestRound} />;
-          break;
-        default:
-          throw new Error(`Latest round should never have this status: ${latestRound.status}`);
-      }
-    } else {
-      screen = <LobbyScreen game={game} />;
-    }
-  }
+  const screen = getCurrentScreen(game, player, latestRound) || <JoinGameScreen onSetup={handleSetup} />;
 
   return (
     <MainLayout currentRound={latestRound} totalRounds={game?.totalRounds}>

@@ -7,6 +7,7 @@ export const DUMMY_GAME_DATA: Game = {
   players: [DUMMY_PLAYER_DATA, { id: 'player2', name: 'John', points: 2, status: PlayerStatus.JOINED }],
   status: GameStatus.ACTIVE,
   totalRounds: 8,
+  currentRound: 1,
   rounds: [
     {
       order: 1,
@@ -29,7 +30,7 @@ const PLAYER_ONE: Player = { ...BASE_PLAYER };
 const PLAYER_TWO: Player = { ...BASE_PLAYER, id: 'player2', name: 'Jens' };
 
 const BASE_ROUND: GameRound = {
-  order: 0,
+  order: 1,
   status: GameRoundStatus.NOT_STARTED,
   caption: "What a day I've had...",
   presentImage: '',
@@ -41,6 +42,7 @@ const BASE_GAME: Game = {
   players: [],
   status: GameStatus.ACTIVE,
   totalRounds: 3,
+  currentRound: 1,
   rounds: [BASE_ROUND, { ...BASE_ROUND, order: 1 }, { ...BASE_ROUND, order: 2 }],
 };
 
@@ -96,7 +98,7 @@ export const GAME_ROUND_PRESENT: Game = {
 export const GAME_ROUND_VOTE: Game = {
   ...GAME_ROUND_PRESENT,
   rounds: GAME_ROUND_PRESENT.rounds.map((item) =>
-    item.order === 0
+    item.order === 1
       ? {
           ...GAME_ROUND_PRESENT.rounds[0],
           status: GameRoundStatus.VOTE,
@@ -108,7 +110,7 @@ export const GAME_ROUND_VOTE: Game = {
 export const GAME_ROUND_RESULTS: Game = {
   ...GAME_ROUND_VOTE,
   rounds: GAME_ROUND_VOTE.rounds.map((item) =>
-    item.order === 0
+    item.order === 1
       ? {
           ...GAME_ROUND_VOTE.rounds[0],
           status: GameRoundStatus.FINISHED,
