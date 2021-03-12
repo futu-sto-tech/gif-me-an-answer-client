@@ -1,6 +1,6 @@
 import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
 import { Game, GameRoundStatus } from 'types';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useEventSource, useLocalStorage } from 'hooks';
 
 import API from 'api';
@@ -11,6 +11,8 @@ import JoinGameScreen from 'screens/join-game';
 import LobbyScreen from 'screens/lobby';
 import PresentScreen from 'screens/present';
 import VoteScreen from 'screens/vote';
+import { GAME_ROUND_PRESENT } from 'fixtures';
+import MainLayout from 'components/MainLayout';
 
 function useGameSubscription(code: string | null): Game | null {
   const [game, setGame] = useState<Game | null>(null);
@@ -29,7 +31,7 @@ function useGameSubscription(code: string | null): Game | null {
   const gameSub = useEventSource<Game>(code ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/games/${code}/events` : null);
   useEffect(() => setGame(gameSub), [gameSub]);
 
-  return game;
+  return GAME_ROUND_PRESENT;
 }
 
 const GamePage: React.FC = () => {
@@ -59,30 +61,38 @@ const GamePage: React.FC = () => {
 
   const gameOver = useMemo(() => game?.rounds.every((item) => item.status === GameRoundStatus.FINISHED), [game]);
 
+  let screen = <JoinGameScreen onSetup={handleSetup} />;
+
   if (game && player) {
     if (gameOver) {
-      return <FinalWinnerScreen game={game} player={player} />;
-    }
-
-    if (latestRound) {
+      screen = <FinalWinnerScreen game={game} player={player} />;
+    } else if (latestRound) {
       switch (latestRound.status) {
         case GameRoundStatus.SELECT_GIF:
-          return <BrowseScreen game={game} round={latestRound} player={player} />;
+          screen = <BrowseScreen game={game} round={latestRound} player={player} />;
+          break;
         case GameRoundStatus.VOTE:
-          return <VoteScreen game={game} round={latestRound} player={player} />;
+          screen = <VoteScreen game={game} round={latestRound} player={player} />;
+          break;
         case GameRoundStatus.PRESENT:
-          return <PresentScreen game={game} round={latestRound} player={player} />;
+          screen = <PresentScreen game={game} round={latestRound} player={player} />;
+          break;
         case GameRoundStatus.FINISHED:
-          return <FinalResultsScreen game={game} player={player} round={latestRound} />;
+          screen = <FinalResultsScreen game={game} player={player} round={latestRound} />;
+          break;
         default:
           throw new Error(`Latest round should never have this status: ${latestRound.status}`);
       }
+    } else {
+      screen = <LobbyScreen game={game} />;
     }
-
-    return <LobbyScreen game={game} />;
   }
 
-  return <JoinGameScreen onSetup={handleSetup} />;
+  return (
+    <MainLayout currentRound={latestRound} totalRounds={game?.totalRounds}>
+      {screen}
+    </MainLayout>
+  );
 };
 
 export default GamePage;

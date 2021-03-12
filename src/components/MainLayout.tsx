@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import * as types from 'types';
 
 const Navigation = styled.nav`
   height: 80px;
@@ -36,11 +37,14 @@ const GameRound = styled.div`
   }
 `;
 
-const MainLayout: React.FC = ({ children }) => {
-  const roundNumber = 1;
-  const totalRounds = 3;
+interface IMainLayoutProps {
+  currentRound?: types.GameRound;
+  totalRounds?: number;
+}
+
+const MainLayout: React.FC<IMainLayoutProps> = ({ children, currentRound, totalRounds }) => {
   const { pathname } = useRouter();
-  console.log(pathname);
+
   return (
     <div className="flex flex-col h-screen">
       {pathname !== '/' ? (
@@ -50,14 +54,16 @@ const MainLayout: React.FC = ({ children }) => {
               <img src="/assets/Logo.png" alt="logo" />
             </a>
           </Link>
-          <GameRound>
-            <img src="/assets/round.svg" alt="logo" />
-            <div>
-              <p>
-                <span>Round</span> {roundNumber}/{totalRounds}
-              </p>
-            </div>
-          </GameRound>
+          {currentRound ? (
+            <GameRound>
+              <img src="/assets/round.svg" alt="logo" />
+              <div>
+                <p>
+                  <span>Round</span> {currentRound.order + 1}/{totalRounds}
+                </p>
+              </div>
+            </GameRound>
+          ) : null}
         </Navigation>
       ) : null}
       <MainContainer>{children}</MainContainer>
