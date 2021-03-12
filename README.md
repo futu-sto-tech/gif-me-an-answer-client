@@ -14,8 +14,10 @@ cd gif-me-an-answer-client
 Install the dependencies:
 
 ```bash
-yarn
+npm install
 ```
+
+> If you are running npm version 3.7.x you might need to run `npm install --legacy-peer-deps`.
 
 Prepare environment variables by copying `.env.sample` to a new file `.env` and update the values.
 
@@ -26,7 +28,7 @@ cp .env.sample .env
 Start the dev server:
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 You're good to go!
