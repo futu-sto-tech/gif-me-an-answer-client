@@ -7,6 +7,7 @@ export const DUMMY_GAME_DATA: Game = {
   players: [DUMMY_PLAYER_DATA, { id: 'player2', name: 'John', points: 2, status: PlayerStatus.JOINED }],
   status: GameStatus.ACTIVE,
   totalRounds: 8,
+  totalPlayers: 4,
   currentRound: 1,
   rounds: [
     {
