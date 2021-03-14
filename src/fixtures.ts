@@ -42,6 +42,7 @@ const BASE_GAME: Game = {
   players: [],
   status: GameStatus.ACTIVE,
   totalRounds: 3,
+  totalPlayers: 2,
   currentRound: 1,
   rounds: [BASE_ROUND, { ...BASE_ROUND, order: 1 }, { ...BASE_ROUND, order: 2 }],
 };
