@@ -48,7 +48,7 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
         {shouldShowButtons && (
           <div className="grid gap-6 md:grid-cols-2 max-w-md mx-auto">
             <LinkButton href="/" linkText="Quit" />
-            <LinkButton href="/game/new" linkText="Play again" />
+            <LinkButton href="/" linkText="Play again" />
           </div>
         )}
       </div>
