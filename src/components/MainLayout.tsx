@@ -19,24 +19,6 @@ const MainContainer = styled.main`
   flex: 1;
 `;
 
-const GameRound = styled.div`
-  width: 55px;
-  height: 55px;
-  img {
-    width: 100%;
-  }
-  p {
-    margin-top: -43px;
-    text-align: center;
-    color: ${({ theme }) => theme.colors.white};
-    font-weight: 700;
-    font-size: 12px;
-    span {
-      font-size: 10px;
-    }
-  }
-`;
-
 interface IMainLayoutProps {
   currentRound?: types.GameRound;
   totalRounds?: number;
@@ -48,21 +30,24 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children, currentRound, totalR
   return (
     <div className="flex flex-col h-screen">
       {pathname !== '/' ? (
-        <Navigation className="flex flex-shrink-0">
+        <Navigation className="flex space-x-4">
           <Link href="/">
             <a>
-              <img src="/assets/Logo.png" alt="logo" />
+              <img src="/assets/Logo.png" style={{ height: 64 }} alt="logo" />
             </a>
           </Link>
           {currentRound ? (
-            <GameRound>
-              <img src="/assets/round.svg" alt="logo" />
-              <div>
-                <p>
-                  <span>Round</span> {currentRound.order}/{totalRounds}
+            <div className="relative" style={{ width: 55, height: 55 }}>
+              <img src="/assets/round.svg" height="55" width="55" alt="logo" />
+              <div className="absolute inset-0 flex items-center justify-center flex-col space-y-1">
+                <p className="text-white text-center leading-none -mb-px" style={{ fontSize: 9 }}>
+                  Round
+                </p>
+                <p className="text-center text-white text-sm leading-none">
+                  {currentRound.order}/{totalRounds}
                 </p>
               </div>
-            </GameRound>
+            </div>
           ) : null}
         </Navigation>
       ) : null}
