@@ -75,7 +75,10 @@ const GamePage: React.FC = () => {
     setPlayerName(data.name);
   };
 
-  const latestRound = useMemo(() => game?.rounds.find((item) => item.order === game?.currentRound), [game?.rounds]);
+  const latestRound = useMemo(() => game?.rounds.find((item) => item.order === game?.currentRound), [
+    game?.rounds,
+    game?.currentRound,
+  ]);
 
   const screen = getCurrentScreen(game, player, latestRound) || <JoinGameScreen onSetup={handleSetup} />;
 
