@@ -17,7 +17,7 @@ const ResultChart: React.FC<IResultChartProps> = ({ data }) => {
 
   return (
     <ResponsiveContainer>
-      <BarChart data={sanitisedData} margin={{ top: 50 }}>
+      <BarChart data={sanitisedData} margin={{ top: 32 }}>
         <XAxis dataKey="name" tickLine={false} stroke="white" />
 
         <Bar dataKey="value">
