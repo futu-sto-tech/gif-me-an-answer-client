@@ -7,13 +7,11 @@ interface IResultChartProps {
 }
 
 const ResultChart: React.FC<IResultChartProps> = ({ data }) => {
-  const sanitisedData = data
-    .map((d) => ({
-      name: d.playerName,
-      value: d.points,
-      label: d.points === 1 ? `1 vote` : `${d.points} votes`,
-    }))
-    .sort((a, b) => b.value - a.value);
+  const sanitisedData = data.map((d) => ({
+    name: d.playerName,
+    value: d.points,
+    label: d.points === 1 ? `1 vote` : `${d.points} votes`,
+  }));
 
   return (
     <ResponsiveContainer>
