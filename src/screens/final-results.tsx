@@ -15,6 +15,8 @@ const FinalResultsScreen: React.FC<RoundScreenProps> = ({ game, round, player })
     };
   });
 
+  const isFinalRound = game.totalRounds === round.order;
+
   return (
     <div className="h-full py-12 space-y-12">
       <h1 className="text-4xl font-bold text-center text-white">The results are in</h1>
@@ -35,19 +37,21 @@ const FinalResultsScreen: React.FC<RoundScreenProps> = ({ game, round, player })
         ))}
       </section>
 
-      <section>
-        <h2 className="text-2xl font-bold text-white text-center">Leaderboard</h2>
-        <ul className="list-decimal mx-auto max-w-md">
-          {game.players
-            .sort((a, b) => b.points - a.points)
-            .map((item) => (
-              <li key={item.id} className="text-gray-400 text-lg flex justify-between border-b border-gray-600 py-2">
-                <div>{item.name}</div>
-                <div>{item.points}</div>
-              </li>
-            ))}
-        </ul>
-      </section>
+      {!isFinalRound && (
+        <section>
+          <h2 className="text-2xl font-bold text-white text-center">Leaderboard</h2>
+          <ul className="list-decimal mx-auto max-w-md">
+            {game.players
+              .sort((a, b) => b.points - a.points)
+              .map((item) => (
+                <li key={item.id} className="text-gray-400 text-lg flex justify-between border-b border-gray-600 py-2">
+                  <div>{item.name}</div>
+                  <div>{item.points}</div>
+                </li>
+              ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 };
