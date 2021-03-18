@@ -111,6 +111,10 @@ export const GAME_ROUND_VOTE: Game = {
 
 export const GAME_ROUND_RESULTS: Game = {
   ...GAME_ROUND_VOTE,
+  players: GAME_ROUND_VOTE.players.map((item) => ({
+    ...item,
+    points: randomIntFromInterval(0, 4),
+  })),
   rounds: GAME_ROUND_VOTE.rounds.map((item) =>
     item.order === 1
       ? {
