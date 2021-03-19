@@ -2,7 +2,11 @@ import ResultChart from 'components/ResultChart';
 import { RoundScreenProps } from 'types';
 
 const FinalResultsScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
-  const resultData = round.images.map((image) => {
+  const orderedImages = [...round.images].sort((a, b) => b.votes - a.votes);
+  const topVotes = orderedImages[0].votes;
+  const topImages = orderedImages.filter((item) => item.votes === topVotes);
+
+  const resultData = orderedImages.map((image) => {
     const resultPlayer = game.players.find((item) => item.id === image.playerId);
 
     return {
@@ -14,9 +18,22 @@ const FinalResultsScreen: React.FC<RoundScreenProps> = ({ game, round, player })
   return (
     <div className="h-full py-12 space-y-12">
       <h1 className="text-4xl font-bold text-center text-white">The results are in</h1>
+
       <div className="h-96">
         <ResultChart data={resultData} />
       </div>
+
+      <section>
+        {topImages.map((item) => (
+          <div key={item.id} className="space-y-2">
+            <p className="text-gray-300 text-center text-xl">
+              Round winner:{' '}
+              <span className="text-pink-500">{game.players.find((player) => player.id === item.playerId)?.name}</span>
+            </p>
+            <img src={item.url} className="mx-auto" />
+          </div>
+        ))}
+      </section>
 
       <section>
         <h2 className="text-2xl font-bold text-white text-center">Leaderboard</h2>
