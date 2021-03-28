@@ -1,6 +1,6 @@
 import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
 import { Game, GameRound, GameRoundStatus, GameStatus, Player } from 'types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useEventSource, useLocalStorage } from 'hooks';
 
 import API from 'api';
@@ -17,14 +17,16 @@ function useGameSubscription(code: string | null): Game | null {
   const [game, setGame] = useState<Game | null>(null);
 
   useEffect(() => {
-    async function fetchInitialGame() {
-      if (code) {
-        const initialGame = await API.findGame(code);
-        setGame(initialGame);
-      }
+    async function fetchInitialGame(gameCode: string) {
+      const initialGame = await API.findGame(gameCode);
+      setGame(initialGame);
     }
 
-    fetchInitialGame();
+    if (code) {
+      fetchInitialGame(code);
+    } else {
+      setGame(null);
+    }
   }, [code]);
 
   const gameSub = useEventSource<Game>(code ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/games/${code}/events` : null);
@@ -67,6 +69,8 @@ const GamePage: React.FC = () => {
   const [code, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, null);
   const [playerName, setPlayerName] = useLocalStorage<string | null>(PLAYER_NAME_KEY, null);
 
+  const handleExit = useCallback(() => setCode(null), [setCode]);
+
   const game = useGameSubscription(code);
   const player = useMemo(() => game?.players.find((item) => item.name === playerName) ?? null, [game, playerName]);
 
@@ -83,7 +87,7 @@ const GamePage: React.FC = () => {
   const screen = getCurrentScreen(game, player, latestRound) || <JoinGameScreen onSetup={handleSetup} />;
 
   return (
-    <MainLayout currentRound={latestRound} totalRounds={game?.totalRounds}>
+    <MainLayout currentRound={latestRound} totalRounds={game?.totalRounds} onExit={handleExit}>
       {screen}
     </MainLayout>
   );
