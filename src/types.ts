@@ -22,7 +22,7 @@ export enum GameRoundStatus {
 }
 
 export interface GameRound {
-  order: number;
+  order: number; // 1-indexed
   status: GameRoundStatus;
   caption: string;
   presentImage: string;

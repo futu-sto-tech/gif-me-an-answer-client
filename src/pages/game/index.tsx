@@ -72,7 +72,7 @@ const GamePage: React.FC = () => {
   const handleExit = useCallback(() => setCode(null), [setCode]);
 
   const game = useGameSubscription(code);
-  const player = useMemo(() => game?.players.find((item) => item.name === playerName) ?? null, [game, playerName]);
+  const player = useMemo(() => game?.players?.find((item) => item.name === playerName) ?? null, [game, playerName]);
 
   const handleSetup = (data: { code: string; name: string }) => {
     setCode(data.code);

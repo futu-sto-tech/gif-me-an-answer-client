@@ -101,6 +101,9 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
             <div className="space-y-8 px-4 py-8 shadow-2xl bg-background rounded-xl border-4 border-pink flex flex-col items-center max-w-lg mx-auto">
               <img src={playerImage.url} className="border-4 border-black" />
               <Button type="button" buttonText="Selected GIF" disabled={true} />
+              <p className="text-white">
+                {round.images.length}/{game.players.length} players have selected a GIF
+              </p>
             </div>
           </Dialog>
         ) : (
