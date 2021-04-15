@@ -9,6 +9,7 @@ const LobbyScreen: React.FC<{ game: Game }> = ({ game }) => {
         <p className="text-lg font-bold text-white text-center md:text-2xl">
           {game.players.length} <small>/ {game.totalPlayers}</small> people have joined
         </p>
+        <p className="text-lg font-bold text-gray-400 text-center md:text-2xl">{`Game code: ${game.code}`}</p>
         <ul>
           {game.players.map((item) => (
             <li key={item.id} className="text-gray-400 md:text-lg text-center">
