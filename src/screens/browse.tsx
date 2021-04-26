@@ -1,10 +1,9 @@
 import { Gif, RoundScreenProps } from 'types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-
+import useDebounce from 'hooks';
+import { Dialog } from '@reach/dialog';
 import API from 'api';
 import Button from 'components/Button';
-import { Dialog } from '@reach/dialog';
-import useDebounce from 'hooks';
 
 const RANDOM_GIF_LIST = [
   'https://media.giphy.com/media/h26R1JMxiqYpwp0rkF/giphy.gif',
@@ -27,6 +26,14 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
   const handleSubmitGif = useCallback(
     async (url: string) => {
       await API.submitGif({ code: game.code, order: round.order, player, gifUrl: url });
+    },
+    [game.code, round.order, player],
+  );
+
+  const handleDeselectGif = useCallback(
+    async (url: string) => {
+      await API.deselectGif({ code: game.code, order: round.order, player, gifUrl: url });
+      setImage(null);
     },
     [game.code, round.order, player],
   );
@@ -87,7 +94,6 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
         </div>
         <div className="gap-4 masonry">
           {gifs?.slice(0, 20).map(({ original, id }) => {
-            console.log(original.url);
             return (
               <button key={id} onClick={() => setImage(original.url)} className="w-full h-full">
                 <img src={original.url} />
@@ -100,7 +106,16 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
           <Dialog aria-label="selected gif" className="p-6 bg-transparent w-full" isOpen={true}>
             <div className="space-y-8 px-4 py-8 shadow-2xl bg-background rounded-xl border-4 border-pink flex flex-col items-center max-w-lg mx-auto">
               <img src={playerImage.url} className="border-4 border-black" />
-              <Button type="button" buttonText="Selected GIF" disabled={true} />
+              <Button
+                type="button"
+                buttonText={
+                  <div className="flex">
+                    <img className="mr-2" src="/assets/trash.svg" />
+                    Select a new GIF
+                  </div>
+                }
+                handleClick={() => handleDeselectGif(playerImage.url)}
+              />
               <p className="text-white">
                 {round.images.length}/{game.players.length} players have selected a GIF
               </p>

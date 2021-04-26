@@ -111,6 +111,28 @@ export async function submitGif({ code, order, player, gifUrl }: SubmitGifParams
 }
 
 /**
+ * @summary Deselect a previously selected GIF
+ * @param params
+ * @param params.code Game code
+ * @param params.order Game round order
+ * @param params.player Player details
+ * @param params.gifUrl Image url
+ * @returns Current game
+ */
+
+export async function deselectGif({ code, order, player, gifUrl }: SubmitGifParams): Promise<Game> {
+  return await apiFetcher({
+    url: `/games/${code}/rounds/${order}/images/deselect`,
+    method: 'POST',
+    data: {
+      player: player.id,
+      roundNumber: order,
+      url: gifUrl,
+    },
+  });
+}
+
+/**
  * @summary Vote for an image
  * @param code Game code
  * @param order Game round order

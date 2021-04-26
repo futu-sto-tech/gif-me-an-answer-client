@@ -37,7 +37,7 @@ const StyledButton = styled.button`
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
 
 interface IButtonProps {
-  buttonText: string;
+  buttonText: string | React.ReactNode;
   handleClick?: () => void;
   type: ButtonType;
   disabled?: boolean;
