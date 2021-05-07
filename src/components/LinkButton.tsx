@@ -32,12 +32,19 @@ const StyledLink = styled.a`
 interface IButtonProps {
   href: string;
   linkText: string;
+  onClick?: () => void;
 }
 
-const LinkButton: React.FC<IButtonProps> = ({ linkText, href }) => {
+const LinkButton: React.FC<IButtonProps> = ({ linkText, href, onClick }) => {
   return (
     <Link href={href}>
-      <StyledLink>{linkText}</StyledLink>
+      <StyledLink
+        onClick={(_) => {
+          onClick && onClick();
+        }}
+      >
+        {linkText}
+      </StyledLink>
     </Link>
   );
 };

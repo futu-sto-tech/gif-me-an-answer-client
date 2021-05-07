@@ -2,6 +2,8 @@ import { Game, Player } from 'types';
 import { useEffect, useMemo, useState } from 'react';
 
 import LinkButton from 'components/LinkButton';
+import { useLocalStorage } from 'hooks';
+import { GAME_CODE_KEY } from 'app-constants';
 
 interface IFinalWinnerScreenProps {
   game: Game;
@@ -10,6 +12,7 @@ interface IFinalWinnerScreenProps {
 
 const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
   const [shouldShowButtons, setShouldShowButtons] = useState(false);
+  const [, setCode] = useLocalStorage<number>(GAME_CODE_KEY);
 
   useEffect(() => {
     setTimeout(() => {
@@ -47,8 +50,20 @@ const FinalWinnerScreen: React.FC<IFinalWinnerScreenProps> = ({ game }) => {
 
         {shouldShowButtons && (
           <div className="grid gap-6 md:grid-cols-2 max-w-md mx-auto">
-            <LinkButton href="/" linkText="Quit" />
-            <LinkButton href="/" linkText="Play again" />
+            <LinkButton
+              href="/"
+              linkText="Quit"
+              onClick={() => {
+                setCode(null);
+              }}
+            />
+            <LinkButton
+              href="/"
+              linkText="Play again"
+              onClick={() => {
+                setCode(null);
+              }}
+            />
           </div>
         )}
       </div>
