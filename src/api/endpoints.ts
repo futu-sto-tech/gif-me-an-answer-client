@@ -39,14 +39,16 @@ export async function createGame({ rounds, players }: { rounds: number; players:
  * @summary Add player to a game
  * @param code
  * @param playerName
+ * @param isHost
  * @returns Player object
  */
-export async function joinGame(code: string, playerName: string): Promise<Player> {
+export async function joinGame(code: string, playerName: string, isHost: boolean): Promise<Player> {
   return await apiFetcher({
     url: `/games/${code}/join`,
     method: 'POST',
     data: {
       name: playerName,
+      isHost,
     },
   });
 }
@@ -158,5 +160,12 @@ export async function searchGifs(query: string): Promise<Gif[]> {
     data: {
       query: query,
     },
+  });
+}
+
+export async function forceStart(code: string): Promise<void> {
+  return await apiFetcher({
+    url: `/games/${code}/force-start`,
+    method: 'GET',
   });
 }
