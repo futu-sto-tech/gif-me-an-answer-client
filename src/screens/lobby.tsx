@@ -20,7 +20,7 @@ const LobbyScreen: React.FC<{ game: Game }> = ({ game }) => {
     return currentPlayer?.isHost || false;
   }
 
-  const showForceStartButton = (game.players.length > 2 && isPlayerHost()) || true;
+  const showForceStartButton = game.players.length > 2 && isPlayerHost();
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-6 space-y-6">
