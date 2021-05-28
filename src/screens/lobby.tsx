@@ -39,8 +39,12 @@ const LobbyScreen: React.FC<{ game: Game }> = ({ game }) => {
           ))}
         </ul>
       </div>
-      <p className="text-white">As a host, you can start the game even if not all players have joined</p>
-      {showForceStartButton && <Button type="button" buttonText="Start game" handleClick={handleForceStart} />}
+      {showForceStartButton && (
+        <>
+          <p className="text-white">As a host, you can start the game even if not all players have joined</p>
+          <Button type="button" buttonText="Start game" handleClick={handleForceStart} />
+        </>
+      )}
     </div>
   );
 };

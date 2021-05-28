@@ -1,10 +1,16 @@
 import { Game, GameRound, GameRoundStatus, GameStatus, Image, Player, PlayerStatus } from 'types';
 
-export const DUMMY_PLAYER_DATA: Player = { id: 'player1', name: 'Hi', points: 22, status: PlayerStatus.READY };
+export const DUMMY_PLAYER_DATA: Player = {
+  id: 'player1',
+  name: 'Hi',
+  points: 22,
+  status: PlayerStatus.READY,
+  isHost: true,
+};
 
 export const DUMMY_GAME_DATA: Game = {
   code: '7856',
-  players: [DUMMY_PLAYER_DATA, { id: 'player2', name: 'John', points: 2, status: PlayerStatus.JOINED }],
+  players: [DUMMY_PLAYER_DATA, { id: 'player2', name: 'John', points: 2, status: PlayerStatus.JOINED, isHost: false }],
   status: GameStatus.ACTIVE,
   totalRounds: 8,
   totalPlayers: 4,
@@ -25,6 +31,7 @@ const BASE_PLAYER: Player = {
   name: 'Robin',
   points: 0,
   status: PlayerStatus.JOINED,
+  isHost: false,
 };
 
 const PLAYER_ONE: Player = { ...BASE_PLAYER };
