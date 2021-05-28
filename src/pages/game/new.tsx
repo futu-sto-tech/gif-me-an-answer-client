@@ -11,7 +11,7 @@ const GameNewPage: React.FC = () => {
   const [, setCode] = useLocalStorage<string | null>(GAME_CODE_KEY, null);
   const [playerName, setPlayerName] = useLocalStorage(PLAYER_NAME_KEY, '');
   const [rounds, setRounds] = useState(1);
-  const [players, setPlayers] = useState(2);
+  const [players, setPlayers] = useState(3);
 
   const handleSubmit = async () => {
     try {
@@ -54,7 +54,7 @@ const GameNewPage: React.FC = () => {
           <p className="text-4xl font-bold text-center text-white">{players} Players</p>
           <input
             type="range"
-            min="2"
+            min="3"
             max="20"
             value={players}
             onChange={({ target: { value } }) => setPlayers(parseInt(value))}
