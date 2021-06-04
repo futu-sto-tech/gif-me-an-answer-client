@@ -12,7 +12,8 @@
     "build": "next build",
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
-    "lint": "eslint ./src --ext ts --ext tsx"
+    "lint": "eslint ./src --ext ts --ext tsx",
+    "test:e2e": "node ./test/run-e2e-tests.js"
   },
   "author": "Frontend Team",
   "license": "MIT",
@@ -36,6 +37,7 @@
     "@typescript-eslint/parser": "^4.9.1",
     "autoprefixer": "^10.1.0",
     "babel-plugin-styled-components": "^1.12.0",
+    "cypress": "^7.4.0",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.2.0",
