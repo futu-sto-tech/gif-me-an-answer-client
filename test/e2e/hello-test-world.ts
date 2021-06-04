@@ -7,3 +7,5 @@ context(`Hello test world!`, () => {
     return true;
   });
 });
+
+export {};
