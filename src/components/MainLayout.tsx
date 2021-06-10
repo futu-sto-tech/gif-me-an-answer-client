@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { RoundSVG } from './RoundSvg';
 
 const Navigation = styled.nav`
   height: 80px;
-  padding: 24px;
+  margin: 24px;
+  display: flex;
   a {
     img {
-      height: 70px;
+      height: 100%;
     }
   }
 `;
@@ -19,21 +21,20 @@ const MainContainer = styled.main`
 `;
 
 const GameRound = styled.div`
+  display: flex;
+  height: 100%;
+  margin-left: 16px;
+  position: relative;
   width: 55px;
   height: 55px;
-  img {
-    width: 100%;
+  align-items: center;
+  justify-content: center;
+  svg {
+    position: absolute;
   }
-  p {
-    margin-top: -43px;
-    text-align: center;
-    color: ${({ theme }) => theme.colors.white};
-    font-weight: 700;
-    font-size: 12px;
-    span {
-      font-size: 10px;
-    }
-  }
+`;
+const TextContainer = styled.div`
+  color: white;
 `;
 
 const MainLayout: React.FC = ({ children }) => {
@@ -44,19 +45,17 @@ const MainLayout: React.FC = ({ children }) => {
   return (
     <div className="flex flex-col h-screen">
       {pathname !== '/' ? (
-        <Navigation className="flex flex-shrink-0">
+        <Navigation>
           <Link href="/">
             <a>
               <img src="/assets/Logo.png" alt="logo" />
             </a>
           </Link>
           <GameRound>
-            <img src="/assets/round.svg" alt="logo" />
-            <div>
-              <p>
-                <span>Round</span> {roundNumber}/{totalRounds}
-              </p>
-            </div>
+            <RoundSVG />
+            <TextContainer>
+              {roundNumber}/{totalRounds}
+            </TextContainer>
           </GameRound>
         </Navigation>
       ) : null}

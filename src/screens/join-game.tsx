@@ -1,5 +1,6 @@
 import { GAME_CODE_KEY, PLAYER_NAME_KEY } from 'app-constants';
 import { useLocalStorage, useNextQueryParam } from 'hooks';
+import { motion } from 'framer-motion';
 
 import API from 'api';
 import Button from 'components/Button';
@@ -27,12 +28,31 @@ const JoinGameScreen: React.FC<Props> = ({ onSetup }) => {
     }
   };
 
+  const headingVariants = {
+    hidden: {
+      opacity: 0,
+      y: -1000,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1}
+    },
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
       className="h-full flex flex-col justify-between py-12 md:items-center md:justify-start md:space-y-24"
     >
-      <h1 className="text-4xl font-extrabold text-white text-center">Join Game</h1>
+      <motion.h1
+        variants={headingVariants}
+        initial="hidden"
+        animate="visible"
+        className="text-4xl font-extrabold text-white text-center"
+      >
+        Join Game
+      </motion.h1>
       <div className="flex flex-col justify-center space-y-8">
         <div className="space-y-2">
           <h2 className="text-lg font-bold text-center text-white">Game code</h2>
