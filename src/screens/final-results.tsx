@@ -9,9 +9,11 @@ const FinalResultsScreen: React.FC<RoundScreenProps> = ({ game, round, player })
   const resultData = orderedImages.map((image) => {
     const resultPlayer = game.players.find((item) => item.id === image.playerId);
 
+    const votedBy = image.votedBy.map((playerId) => game.players.find((p) => p.id === playerId)?.name || '');
     return {
       playerName: resultPlayer?.id === player.id ? 'You' : resultPlayer?.name || 'Unknown',
       points: image.votes,
+      votedBy,
     };
   });
 
