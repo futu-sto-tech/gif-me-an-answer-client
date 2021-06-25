@@ -37,8 +37,10 @@ export interface Image {
 }
 
 export enum PlayerStatus {
-  JOINED,
-  READY,
+  JOINED = 'JOINED',
+  READY = 'READY',
+  SELECTED_GIF = 'SELECTED_GIF',
+  VOTED = 'VOTED',
 }
 
 export interface Player {
