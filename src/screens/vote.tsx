@@ -1,4 +1,4 @@
-import { Image, RoundScreenProps } from 'types';
+import { Image, RoundScreenProps, PlayerStatus } from 'types';
 import { useCallback, useMemo, useState } from 'react';
 
 import API from 'api';
@@ -27,6 +27,11 @@ const VoteScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
     round.images,
   ]);
 
+  // Players who has not voted and exclude the current player.
+  const playersWhoHasNotSubmitted = game.players.filter(
+    ({ status, id }) => status !== PlayerStatus.VOTED && player.id !== id,
+  );
+
   return (
     <div className="py-12 space-y-12">
       <h1 className="text-4xl font-extrabold text-center text-white">Time to vote!</h1>
@@ -54,6 +59,16 @@ const VoteScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
               disabled={voted}
               handleClick={() => handleSubmit(image)}
             />
+            {voted && (
+              <div>
+                <p className="text-white font-bold">Waiting for the following players...</p>
+                <ul>
+                  {playersWhoHasNotSubmitted.map((p) => (
+                    <li className="text-white">{p.name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </Dialog>

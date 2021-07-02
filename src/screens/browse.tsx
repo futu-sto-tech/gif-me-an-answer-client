@@ -1,4 +1,4 @@
-import { Gif, RoundScreenProps } from 'types';
+import { Gif, PlayerStatus, RoundScreenProps } from 'types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import useDebounce from 'hooks';
 import { Dialog } from '@reach/dialog';
@@ -76,6 +76,8 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
     }
   }, [updateGifImages, debouncedValue]);
 
+  const playersWhoHasNotSubmitted = game.players.filter((player) => player.status !== PlayerStatus.SELECTED_GIF);
+
   return (
     <>
       <div className="fixed h-2 bg-pink-500 top-0 left-0" style={{ width: `${percentageLeft}%` }} />
@@ -119,6 +121,12 @@ const BrowseScreen: React.FC<RoundScreenProps> = ({ game, round, player }) => {
               <p className="text-white">
                 {round.images.length}/{game.players.length} players have selected a GIF
               </p>
+              <p className="text-white font-bold">Waiting for</p>
+              <ul>
+                {playersWhoHasNotSubmitted.map((player) => (
+                  <li className="text-white">{player.name}</li>
+                ))}
+              </ul>
             </div>
           </Dialog>
         ) : (
