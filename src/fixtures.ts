@@ -60,6 +60,7 @@ const PLAYER_ONE_IMAGE: Image = {
   url: 'https://media.giphy.com/media/lXiRKBj0SAA0EWvbG/giphy.gif',
   playerId: PLAYER_ONE.id,
   votes: 0,
+  votedBy: [],
 };
 
 const PLAYER_TWO_IMAGE: Image = {
@@ -67,6 +68,7 @@ const PLAYER_TWO_IMAGE: Image = {
   playerId: PLAYER_TWO.id,
   url: 'https://media.giphy.com/media/xwoZyKqaoVbxeZX2uM/giphy.gif',
   votes: 0,
+  votedBy: [],
 };
 
 export const GAME_NOT_STARTED = null;
